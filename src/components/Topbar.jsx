@@ -25,14 +25,7 @@ const Topbar = () => {
           JSON.parse(localStorage.getItem("persist:root")).currentUser
         )?.token;
         console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.name);
-        const getUserResponse = await axios.get(
-          "http://localhost:3000/api/user/getUser",
-          {
-            headers: {
-              "Authorization": `Bearer ${token}`,
-            },
-          }
-        );
+        const getUserResponse = await userRequest.get("/user/getUser");
         console.log(getUserResponse.data);
         const res = getUserResponse.data;
         console.log(res);

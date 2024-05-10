@@ -12,11 +12,7 @@ const Home = () => {
       const token =await JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.token
       console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.name);
       try {
-        const res = await axios.get("http://localhost:3000/api/user/getAllUser", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+        const res = await userRequest.get("/user/getAllUser")
         setAllUser(res.data)
       } catch (error) {
         console.log(error);
