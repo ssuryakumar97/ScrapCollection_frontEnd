@@ -4,7 +4,7 @@ const base_url = "http://localhost:3000/api"
 // const base_url = "https://scrapcollection-backend.onrender.com/api"
 
 
-const token = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.token
+// const token = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.token
 
 // const token = localStorage.getItem("token")
 
@@ -19,6 +19,6 @@ export const publicRequest = axios.create({
 export const userRequest = axios.create({
     baseURL: base_url,
     headers: {
-        "Authorization": `Bearer ${token}`
+        // "Authorization": `Bearer ${token}`
     }
 })
