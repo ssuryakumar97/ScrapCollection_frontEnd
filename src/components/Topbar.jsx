@@ -17,40 +17,44 @@ const Topbar = () => {
   const [isCollectionAgent, setIsCollectionAgent] = useState(false);
   const [userData, setUserData] = useState({});
 
-  useLayoutEffect(() => {
-    const getUser = async () => {
-      try {
-        // const getUserResponse = await userRequest.get("/user/getUser")
-        const token =await JSON.parse(
-          JSON.parse(localStorage.getItem("persist:root")).currentUser
-        )?.token;
-        console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.name);
-        const getUserResponse = await userRequest.get("/user/getUser");
-        console.log(getUserResponse.data);
-        const res = getUserResponse.data;
-        console.log(res);
-        setUserData(res);
-        console.log(userData);
-        // setIsAdmin(() => getUserResponse.data.isAdmin)
-        // console.log(isAdmin);
-        // setIsCollectionAgent(() => getUserResponse.data.isCollectionAgent)
-        // console.log(isCollectionAgent);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, []);
-
   const user = useSelector((state) => state.currentUser);
-  console.log(userData);
-
+  // const user = JSON.parse(localStorage.getItem("currentUser"))
+  console.log(user);
+  
   const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     try {
+  //       // const getUserResponse = await userRequest.get("/user/getUser")
+        
+  //       // console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.name);
+  //       // const getUserResponse = await userRequest.get("/user/getUser");
+  //       // console.log(getUserResponse.data);
+  //       // const res = getUserResponse.data;
+  //       // console.log(res);
+  //       // setUserData(res);
+  //       // console.log(userData);
+  //       // setIsAdmin(() => getUserResponse.data.isAdmin)
+  //       // console.log(isAdmin);
+  //       // setIsCollectionAgent(() => getUserResponse.data.isCollectionAgent)
+  //       // console.log(isCollectionAgent);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getUser();
+  // }, []);
+
+  
+  // console.log(userData);
+
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
-    // localStorage.removeItem("token")
+    localStorage.removeItem("token")
     navigate("/login");
   };
 
@@ -60,17 +64,16 @@ const Topbar = () => {
       {/* {isAdmin && (<> <div>Admin</div> 
       <div>Inventory</div></>)}
       {isCollectionAgent && (<div>Inventory</div>)} */}
-      {/* {user.isAdmin && (<> <div>Admin</div> 
+      {user.isAdmin && (<> <div>Admin</div> 
       <div>Inventory</div></>)}
-      {user.isCollectionAgent && (<div>Inventory</div>)} */}
-      {userData.isAdmin && (
+      {user.isCollectionAgent && (<div>Inventory</div>)}
+      {/* {userData.isAdmin ? (
         <>
-          {" "}
           <div>Admin</div>
           <div>Inventory</div>
         </>
-      )}
-      {userData.isCollectionAgent && <div>Inventory</div>}
+      ): null}
+      {userData.isCollectionAgent ? (<div>Inventory</div>) : null} */}
       <div>Pricing</div>
       <div>Collection Request</div>
       <div>Orders</div>

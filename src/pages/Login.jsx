@@ -94,10 +94,10 @@ const Login = () => {
       // alert(loginResponse.data.message)
       // localStorage.setItem("token", loginResponse.data.data.token)
       // await new Promise((resolve) => setTimeout(resolve, 2000))
-      // dispatch(logout())
+      
       // actions.resetForm()
-      navigate("/")
       dispatch(login(loginResponse.data.data))
+      navigate("/")
     } catch (error) {
       console.log(error)
       actions.setErrors(error.response.data)
