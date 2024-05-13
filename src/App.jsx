@@ -6,7 +6,6 @@ import {BrowserRouter, Routes, Route, Navigate, Outlet} from "react-router-dom"
 import { useState } from "react"
 
 const PrivateRoute = ({isAuthenticated}) => {
-console.log(isAuthenticated);
   return isAuthenticated ?
   (<>
     <Outlet />
@@ -20,7 +19,6 @@ function App() {
   
   const user = useSelector((state) => state.isUserAuthenticated)
   // setUserAuthenticated(user);
-  console.log(user);
 
 
   return (

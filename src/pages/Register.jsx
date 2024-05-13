@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {registrationValidationSchema} from "../schemas/validationSchema";
 import { useFormik } from "formik";
 import { publicRequest } from "../requestMethods";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 const MainDiv = styled.div`
   width: 100vw;
@@ -66,7 +66,7 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const LinkPage = styled(Link)`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
@@ -180,7 +180,7 @@ const Register = () => {
           >
             CREATE
           </Button>
-          <Link>LOGIN TO THE ACCOUNT</Link>
+          <LinkPage to="/login">LOGIN TO THE ACCOUNT</LinkPage>
         </Form>
       </LoginContainer>
     </MainDiv>

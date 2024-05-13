@@ -5,7 +5,7 @@ import {loginValidationSchema} from "../schemas/validationSchema";
 import { publicRequest } from "../requestMethods";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/userRedux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const MainDiv = styled.div`
   width: 100vw;
@@ -66,7 +66,7 @@ const Button = styled.button`
   }
 `
 
-const Link = styled.a`
+const LinkPage = styled(Link)`
   margin: 5px 0px;
   font-size: 12px;
   color: blue;
@@ -87,15 +87,9 @@ const Login = () => {
   const navigate = useNavigate()
 
   const onSubmit = async(values,actions ) => {
-    console.log(values)
+    
     try {
       const loginResponse = await publicRequest.post("/user/login", values)
-      console.log(loginResponse.data)
-      // alert(loginResponse.data.message)
-      // localStorage.setItem("token", loginResponse.data.data.token)
-      // await new Promise((resolve) => setTimeout(resolve, 2000))
-      
-      // actions.resetForm()
       dispatch(login(loginResponse.data.data))
       navigate("/")
     } catch (error) {
@@ -128,8 +122,8 @@ const Login = () => {
           <Button
             disabled={isSubmitting}
             className={isSubmitting ? "disabled-button" : "normal-button"}>Login</Button>
-          <Link>DO NOT REMEMBER PASSWORD?</Link>
-          <Link>CREATE NEW ACCOUNT</Link>
+          {/* <LinkPage>DO NOT REMEMBER PASSWORD?</LinkPage> */}
+          <LinkPage to="/register">CREATE NEW ACCOUNT</LinkPage>
         </Form>
       </LoginContainer>
     </MainDiv>

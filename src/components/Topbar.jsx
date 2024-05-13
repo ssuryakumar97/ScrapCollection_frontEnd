@@ -19,7 +19,7 @@ const Topbar = () => {
 
   const user = useSelector((state) => state.currentUser);
   // const user = JSON.parse(localStorage.getItem("currentUser"))
-  console.log(user);
+  // console.log(user);
   
   const dispatch = useDispatch();
 
