@@ -86,6 +86,10 @@ const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  window.addEventListener("popstate", function(e){
+    navigate(-2)
+  })
+
   const onSubmit = async(values,actions ) => {
     
     try {
