@@ -182,7 +182,7 @@ const Topbar = () => {
     <TopbarContainer>
       <LeftDiv>
         <img href="" src="" alt="" />
-        <Image src="/public/images_c.jpeg" alt="logo" />
+        <Image src="images_c.jpeg" alt="logo" />
         <h1>EULER</h1><div>Scrap Collection</div>
       </LeftDiv>
       <RightDiv>
