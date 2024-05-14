@@ -12,14 +12,15 @@ const TopbarContainer = styled.div`
   margin: 10px;
   position: sticky;
   top: 0;
-  background-color: violet;
+  background-color: #6200EE;
+  color: white;
   width: 100%;
   height: 40px;
 `;
 
 const LinkItem = styled(NavLink)`
   text-decoration: none;
-  color: black;
+  color: white;
 `;
 
 const LeftDiv = styled.div`
@@ -30,9 +31,9 @@ const LeftDiv = styled.div`
 
 const Image = styled.img`
   width: 30px;
- margin-left: 10px ;
- border-radius: 2px;
-`
+  margin-left: 10px;
+  border-radius: 2px;
+`;
 
 const RightDiv = styled.div`
   display: flex;
@@ -43,25 +44,28 @@ const RightDiv = styled.div`
 
 const SidebarDiv = styled.div`
   padding: 10px;
-  &:hover{
+  &:hover {
     background-color: #eae6e6;
+    color: black
   }
-  &.active{
+  &.active {
     background-color: #eae6e6;
+    color: black;
   }
-`
+`;
 
 const DropDownMenu = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const DropDownList = styled.div`
   position: absolute;
-  top: 40px;
+  top: 50px;
   right: 20px;
   padding: 0;
-  width: 100px;
+  width: 150px;
+  box-shadow: 0px 0px 10px -2px rgba(0,0,0,0.75);
   &::before {
     content: "";
     position: absolute;
@@ -81,6 +85,7 @@ const StyledAccountCircleIcon = styled(AccountCircleIcon)`
   cursor: pointer;
   &:hover {
     background-color: aliceblue;
+    color: black;
   }
 `;
 
@@ -93,6 +98,7 @@ const ListItem = styled.li`
   list-style-type: none;
   padding: 10px;
   text-align: center;
+  color: black;
   border: solid 1px lightgrey;
   &:nth-child(1) {
     border-radius: 5px 5px 0 0;
@@ -111,7 +117,7 @@ const Topbar = () => {
 
   const user = useSelector((state) => state.currentUser);
 
-  const menuRef = useRef()
+  const menuRef = useRef();
   // const user = JSON.parse(localStorage.getItem("currentUser"))
   // console.log(user);
 
@@ -119,19 +125,17 @@ const Topbar = () => {
 
   useEffect(() => {
     let handler = (event) => {
-      if(!menuRef.current?.contains(event.target)){
-        setDropDown(false)
+      if (!menuRef.current?.contains(event.target)) {
+        setDropDown(false);
       }
-    }
+    };
 
-    window.addEventListener("mousedown", handler)
+    window.addEventListener("mousedown", handler);
 
     return () => {
-      window.removeEventListener("mousedown", handler)
-    }
-  },[])
-
-  
+      window.removeEventListener("mousedown", handler);
+    };
+  }, []);
 
   // useEffect(() => {
   //   const getUser = async () => {
@@ -176,53 +180,87 @@ const Topbar = () => {
     navigate("/orders");
   };
 
-  
-
   return (
     <TopbarContainer>
       <LeftDiv>
         <img href="" src="" alt="" />
         <Image src="images_c.jpeg" alt="logo" />
-        <h1>EULER</h1><div>Scrap Collection</div>
+        <h1>EULER</h1>
+        <div>Scrap Collection</div>
       </LeftDiv>
       <RightDiv>
-        
-          <LinkItem to="/">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>Home</SidebarDiv>)}</LinkItem>
-        
+        <LinkItem to="/">
+          {({ isActive }) => (
+            <SidebarDiv className={isActive ? "active" : ""}>Home</SidebarDiv>
+          )}
+        </LinkItem>
+
         {user?.isAdmin && (
           <>
-            
-              <LinkItem to="/admin">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>Admin</SidebarDiv>)}</LinkItem>
-            
-            
-              <LinkItem to="/inventory">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>Inventory</SidebarDiv>)}</LinkItem>
-            
+            <LinkItem to="/admin">
+              {({ isActive }) => (
+                <SidebarDiv className={isActive ? "active" : ""}>
+                  Admin
+                </SidebarDiv>
+              )}
+            </LinkItem>
+
+            <LinkItem to="/inventory">
+              {({ isActive }) => (
+                <SidebarDiv className={isActive ? "active" : ""}>
+                  Inventory
+                </SidebarDiv>
+              )}
+            </LinkItem>
           </>
         )}
         {user?.isCollectionAgent && (
           <>
-            <LinkItem to="/inventory">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>Inventory</SidebarDiv>)}</LinkItem>
+            <LinkItem to="/inventory">
+              {({ isActive }) => (
+                <SidebarDiv className={isActive ? "active" : ""}>
+                  Inventory
+                </SidebarDiv>
+              )}
+            </LinkItem>
           </>
         )}
-        
-          <LinkItem to="/pricing">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>Pricing</SidebarDiv>)}</LinkItem>
-        
-        
-          <LinkItem to="/collection-request">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>Collection Request</SidebarDiv>)}</LinkItem>
-       
-          <LinkItem to="/about">{({isActive}) => (<SidebarDiv className={isActive ? "active" : ""}>About</SidebarDiv>)}</LinkItem>
-        
+
+        <LinkItem to="/pricing">
+          {({ isActive }) => (
+            <SidebarDiv className={isActive ? "active" : ""}>
+              Pricing
+            </SidebarDiv>
+          )}
+        </LinkItem>
+
+        <LinkItem to="/collection-request">
+          {({ isActive }) => (
+            <SidebarDiv className={isActive ? "active" : ""}>
+              Collection Request
+            </SidebarDiv>
+          )}
+        </LinkItem>
+
+        <LinkItem to="/about">
+          {({ isActive }) => (
+            <SidebarDiv className={isActive ? "active" : ""}>About</SidebarDiv>
+          )}
+        </LinkItem>
+
         <DropDownMenu ref={menuRef}>
-        <StyledAccountCircleIcon onClick={() => setDropDown((prev) => !prev)} />
-        {dropDown && (
-          <DropDownList >
-            <UnorderedList>
-              <ListItem onClick={handleOrders}>Orders</ListItem>
-              <ListItem onClick={handleLogin}>Login</ListItem>
-              <ListItem onClick={handleLogout}>Logout</ListItem>
-            </UnorderedList>
-          </DropDownList>
-        )}
+          <StyledAccountCircleIcon
+            onClick={() => setDropDown((prev) => !prev)}
+          />
+          {dropDown && (
+            <DropDownList>
+              <UnorderedList>
+                <ListItem onClick={handleOrders}>Orders</ListItem>
+                <ListItem onClick={handleLogin}>Login</ListItem>
+                <ListItem onClick={handleLogout}>Logout</ListItem>
+              </UnorderedList>
+            </DropDownList>
+          )}
         </DropDownMenu>
       </RightDiv>
     </TopbarContainer>
