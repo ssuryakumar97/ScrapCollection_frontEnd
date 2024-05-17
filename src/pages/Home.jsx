@@ -2,6 +2,26 @@ import React, { useEffect, useState } from 'react'
 import Topbar from '../components/Topbar'
 import { userRequest } from '../requestMethods.js'
 import axios from 'axios'
+import styled from 'styled-components'
+
+const Image = styled.img`
+  width: 40vw;
+  height: 80%;
+`
+
+const HomeDivContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const LeftDiv = styled.div`
+  flex: 1;
+  margin: auto;
+`
+const RightDiv = styled.div`
+  flex: 1;
+  margin: 10px auto;
+`
 
 const Home = () => {
 
@@ -25,16 +45,10 @@ const Home = () => {
   return (
     <div>
       <Topbar/>
-      {/* {allUser && allUser.map((value) => (
-        <div style={{border: "1px solid black", margin: "10px"}} key={value._id}>
-        <div>{value.name}</div>
-        <div>{value.email}</div>
-        <div>{value.isAdmin}</div>
-        <div>{value.isCollectionAgent}</div>
-        </div>
-      ))} */}
-
-      This is Home Page
+     <HomeDivContainer>
+      <LeftDiv><Image src="recycling_images.jpg" alt="Home page image" /></LeftDiv>
+      <RightDiv><h1>Sell your scrap at best price</h1></RightDiv>
+     </HomeDivContainer>
     </div>
   )
 }

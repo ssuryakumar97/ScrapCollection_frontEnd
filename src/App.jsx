@@ -10,6 +10,9 @@ import Orders from "./pages/Orders"
 import AboutUs from "./pages/AboutUs"
 import Admin from "./pages/Admin"
 import Inventory from "./pages/Inventory"
+import AdminHome from "./adminPages/AdminHome"
+import AdminOrders from "./adminPages/AdminOrders"
+import AdminOrderAssign from "./adminPages/AdminOrderAssign"
 
 const PrivateRoute = ({isAuthenticated}) => {
   return isAuthenticated ?
@@ -49,7 +52,11 @@ function App() {
       <Route path="/pricing" element={<Pricing/>} />
       
       <Route path="/about" element={<AboutUs/>} />
-      <Route path="/admin" element={<Admin/>} />
+      <Route path="/admin" element={<Admin/>} >
+        <Route path="adminHome" element={<AdminHome/>} />
+        <Route path="orders" element={<AdminOrders/>} />
+        <Route path="orders/:id" element={<AdminOrderAssign/>} />
+      </Route>
       <Route path="/inventory" element={<Inventory/>} />
       
     </Routes>

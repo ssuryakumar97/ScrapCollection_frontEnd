@@ -1,7 +1,7 @@
 import axios from "axios"
 
-// const base_url = "http://localhost:3000/api"
-const base_url = "https://scrapcollection-backend.onrender.com/api"
+const base_url = "http://localhost:3000/api"
+// const base_url = "https://scrapcollection-backend.onrender.com/api"
 
 
 // const token = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.token

@@ -5,17 +5,19 @@ import { userRequest } from "../requestMethods";
 import { logout } from "../redux/userRedux";
 import { NavLink, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications"
 
 const TopbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 10px;
+  margin-top: 10px;
   position: sticky;
   top: 0;
   background-color: #6200EE;
   color: white;
   width: 100%;
   height: 40px;
+  z-index: 1;
 `;
 
 const LinkItem = styled(NavLink)`
@@ -57,6 +59,7 @@ const SidebarDiv = styled.div`
 const DropDownMenu = styled.div`
   display: flex;
   align-items: center;
+  z-index: 1;
 `;
 
 const DropDownList = styled.div`
@@ -66,6 +69,8 @@ const DropDownList = styled.div`
   padding: 0;
   width: 150px;
   box-shadow: 0px 0px 10px -2px rgba(0,0,0,0.75);
+  opacity: 1;
+  background-color: white;
   &::before {
     content: "";
     position: absolute;
@@ -82,6 +87,14 @@ const DropDownList = styled.div`
 `;
 
 const StyledAccountCircleIcon = styled(AccountCircleIcon)`
+  cursor: pointer;
+  &:hover {
+    background-color: aliceblue;
+    color: black;
+  }
+`;
+
+const StyledNotificationsIcon = styled(NotificationsIcon)`
   cursor: pointer;
   &:hover {
     background-color: aliceblue;
@@ -114,6 +127,7 @@ const ListItem = styled.li`
 
 const Topbar = () => {
   const [dropDown, setDropDown] = useState(false);
+  const [notificationdropDown, setNotificationDropDown] = useState(false);
 
   const user = useSelector((state) => state.currentUser);
 
@@ -125,6 +139,7 @@ const Topbar = () => {
 
   useEffect(() => {
     let handler = (event) => {
+      
       if (!menuRef.current?.contains(event.target)) {
         setDropDown(false);
       }
@@ -184,7 +199,7 @@ const Topbar = () => {
     <TopbarContainer>
       <LeftDiv>
         <img href="" src="" alt="" />
-        <Image src="images_c.jpeg" alt="logo" />
+        <Image src="/images_c.jpeg" alt="logo" />
         <h1>EULER</h1>
         <div>Scrap Collection</div>
       </LeftDiv>
@@ -197,7 +212,7 @@ const Topbar = () => {
 
         {user?.isAdmin && (
           <>
-            <LinkItem to="/admin">
+            <LinkItem to="/admin/adminHome">
               {({ isActive }) => (
                 <SidebarDiv className={isActive ? "active" : ""}>
                   Admin
