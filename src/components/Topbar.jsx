@@ -129,7 +129,8 @@ const Topbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [notificationdropDown, setNotificationDropDown] = useState(false);
 
-  const user = useSelector((state) => state.currentUser);
+  const user = useSelector((state) => state.userReducer.currentUser);
+  console.log(user);
 
   const menuRef = useRef();
   // const user = JSON.parse(localStorage.getItem("currentUser"))

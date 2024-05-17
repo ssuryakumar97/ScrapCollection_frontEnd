@@ -6,8 +6,10 @@ import { orderRows } from "../dummyData";
 import {Link} from "react-router-dom"
 import { publicRequest } from "../requestMethods";
 import io from "socket.io-client"
+import { endpoint } from "../requestMethods";
 
-const endpoint = "http://localhost:3000"
+// const endpoint = "http://localhost:3000"
+// const endpoint = "https://scrapcollection-backend.onrender.com"
 
 var socket
 
@@ -59,7 +61,7 @@ const AdminOrders = () => {
   setData(data.filter(val => val._id !== _id))
 }
 
-const socketRef = useRef(null)
+
 
 useEffect(() => {
   const getOrders = async() => {
@@ -76,26 +78,17 @@ useEffect(() => {
 
 useEffect(() => {
 
-  socketRef.current = io(endpoint)
-  const socket = socketRef.current
+  socket = io(endpoint)
 
   socket.on("order registration", (data) => {
-    console.log(data);
-  })
-  socket.on("new order", (data) => {
     console.log(data);
   })
   socket.on("order received", (data) => {
     console.log(data);
   })
-  socket.on("message", (data) => {
-    console.log(data);
-  })
 },[])
 
-function getRowId(row) {
-  return row.internalId;
-}
+
 
   const columns = [
     { field: "_id", headerName: "ID", width: 50 },

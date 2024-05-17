@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Timeline, LineStyle, TrendingUp, PersonOutline, Inventory, AssessmentOutlined, CurrencyRupeeOutlined, Mail, Feedback, ChatBubble, Work, Report, Notifications, SupportAgent } from "@mui/icons-material";
+import { Timeline, LineStyle, TrendingUp, PersonOutline, Inventory, AssessmentOutlined, CurrencyRupeeOutlined, Mail, Feedback, ChatBubble, Work, Report, Notifications, SupportAgent, ShoppingCart } from "@mui/icons-material";
 import {Link, NavLink} from "react-router-dom"
+import Badge from '@mui/material/Badge';
 // import "../../App.css"
+import io from "socket.io-client"
+import {insertNotification, updateNotification} from "../redux/notificationRedux"
+import {useDispatch, useSelector} from "react-redux"
+import { endpoint } from "../requestMethods";
+
+// const endpoint = "http://localhost:3000"
+// const endpoint = "https://scrapcollection-backend.onrender.com"
+
+var socket
 
 const SidebarDiv = styled.div`
   flex: 1;
@@ -48,6 +58,29 @@ const ActiveLink = styled(NavLink)`
 `
 
 const AdminSidebar = () => {
+  const [notification, setNotification] = useState([])
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+
+    socket = io(endpoint)
+  
+    socket.on("order registration", (data) => {
+      console.log(data);
+    })
+    socket.on("order received", (data) => {
+      console.log(data);
+      setNotification((prev) => [...prev,data])
+      dispatch(insertNotification(data))
+    })
+  },[])
+
+ const user =  useSelector((state) => state.notificationReducer)
+ console.log(user.adminNotification);
+
+  console.log(notification)
+
   return (
     <SidebarDiv>
       <SidebarWrapper>
@@ -55,15 +88,15 @@ const AdminSidebar = () => {
           <SidebarTitle>Dashboard</SidebarTitle>
 
           <SidebarList>
-            <ActiveLink to='/admin/adminHome'>
-              {({isActive}) => ( 
-            <SidebarListItem className={isActive ? "active" : ""}>
-              <LineStyle style={{ marginRight: "5px", fontSize: "20px" }} />
-              Home
-            </SidebarListItem>
+            <ActiveLink to="/admin/adminHome">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                  <LineStyle style={{ marginRight: "5px", fontSize: "20px" }} />
+                  Home
+                </SidebarListItem>
               )}
             </ActiveLink>
-            
+
             <SidebarListItem>
               <TrendingUp style={{ marginRight: "5px", fontSize: "20px" }} />
               Sales
@@ -75,26 +108,37 @@ const AdminSidebar = () => {
 
           <SidebarList>
             <ActiveLink to="/admin/users">
-            {({isActive}) => (<SidebarListItem className={isActive?"active":""}>
-              <PersonOutline style={{ marginRight: "5px", fontSize: "20px" }} />
-              Users
-            </SidebarListItem>)}
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                  <PersonOutline
+                    style={{ marginRight: "5px", fontSize: "20px" }}
+                  />
+                  Users
+                </SidebarListItem>
+              )}
             </ActiveLink>
             <ActiveLink to="/admin/collectionAgent">
-            {({isActive}) => (<SidebarListItem className={isActive?"active":""}>
-              <SupportAgent style={{ marginRight: "5px", fontSize: "20px" }} />
-              collectionAgent
-            </SidebarListItem>)}
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                  <SupportAgent
+                    style={{ marginRight: "5px", fontSize: "20px" }}
+                  />
+                  collectionAgent
+                </SidebarListItem>
+              )}
             </ActiveLink>
-            <ActiveLink to="/admin/inventory" >{({isActive})=>(
-                <SidebarListItem className={isActive?"active":""} >
-                <Inventory style={{ marginRight: "5px", fontSize: "20px" }} />
-                Inventory
-              </SidebarListItem>
-            )}
+            <ActiveLink to="/admin/inventory">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                  <Inventory style={{ marginRight: "5px", fontSize: "20px" }} />
+                  Inventory
+                </SidebarListItem>
+              )}
             </ActiveLink>
             <SidebarListItem>
-              <AssessmentOutlined style={{ marginRight: "5px", fontSize: "20px" }} />
+              <AssessmentOutlined
+                style={{ marginRight: "5px", fontSize: "20px" }}
+              />
               Reports
             </SidebarListItem>
           </SidebarList>
@@ -103,14 +147,36 @@ const AdminSidebar = () => {
           <SidebarTitle>Notifications</SidebarTitle>
 
           <SidebarList>
-          <ActiveLink to="/admin/orders" >{({isActive})=>(
-            <SidebarListItem className={isActive?"active":""} >
-              <Notifications style={{ marginRight: "5px", fontSize: "20px" }} />
-              Orders
-            </SidebarListItem>
-             )}
-             </ActiveLink>
-            <SidebarListItem >
+            <ActiveLink to="/admin/orders">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                    <ShoppingCart
+                      style={{ marginRight: "5px", fontSize: "20px" }}
+                    />
+                  Orders
+                </SidebarListItem>
+              )}
+            </ActiveLink>
+            <ActiveLink to="/admin/notification">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                  <Badge
+                    badgeContent={notification.length}
+                    color="primary"
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    <Notifications
+                      style={{ marginRight: "5px", fontSize: "20px" }}
+                    />
+                  </Badge>
+                  Orders Notification
+                </SidebarListItem>
+              )}
+            </ActiveLink>
+            <SidebarListItem>
               <Feedback style={{ marginRight: "5px", fontSize: "20px" }} />
               Feedback
             </SidebarListItem>

@@ -13,6 +13,7 @@ import Inventory from "./pages/Inventory"
 import AdminHome from "./adminPages/AdminHome"
 import AdminOrders from "./adminPages/AdminOrders"
 import AdminOrderAssign from "./adminPages/AdminOrderAssign"
+import AdminNotification from "./adminPages/AdminNotification"
 
 const PrivateRoute = ({isAuthenticated}) => {
   return isAuthenticated ?
@@ -26,7 +27,8 @@ const PrivateRoute = ({isAuthenticated}) => {
 function App() {
   // const [userAthenticated, setUserAuthenticated] = useState(false)
   
-  const user = useSelector((state) => state.isUserAuthenticated)
+  const user = useSelector((state) => state.userReducer.isUserAuthenticated)
+ 
   // setUserAuthenticated(user);
 
   
@@ -56,6 +58,7 @@ function App() {
         <Route path="adminHome" element={<AdminHome/>} />
         <Route path="orders" element={<AdminOrders/>} />
         <Route path="orders/:id" element={<AdminOrderAssign/>} />
+        <Route path="notification" element={<AdminNotification/>} />
       </Route>
       <Route path="/inventory" element={<Inventory/>} />
       

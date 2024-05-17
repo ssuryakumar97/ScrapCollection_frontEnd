@@ -26,7 +26,7 @@ const Collection_request = () => {
   const [address, setAddress]=useState("")
   const [disabled, setDisabled] = useState(false)
 
-  const email= useSelector((state) => state.currentUser.email)
+  const email= useSelector((state) => state.userReducer.currentUser.email)
 
   useEffect(() => {
     socket = io(endpoint)
