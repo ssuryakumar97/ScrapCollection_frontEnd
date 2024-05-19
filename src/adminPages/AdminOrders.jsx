@@ -7,7 +7,6 @@ import {Link} from "react-router-dom"
 import { publicRequest } from "../requestMethods";
 import io from "socket.io-client"
 import { endpoint } from "../requestMethods";
-
 // const endpoint = "http://localhost:3000"
 // const endpoint = "https://scrapcollection-backend.onrender.com"
 

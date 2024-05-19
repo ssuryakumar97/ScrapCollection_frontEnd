@@ -4,7 +4,8 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         currentUser: null,
-        isUserAuthenticated: false
+        isUserAuthenticated: false,
+        expiry: null
     },
     reducers:{
         login: (state,action) => {
@@ -12,10 +13,12 @@ const userSlice = createSlice({
             // localStorage.setItem("currentUser", JSON.stringify(action.payload))
             state.currentUser = action.payload
             state.isUserAuthenticated = true
+            state.expiry = Date.now() + 10000
         },
         logout:(state) => {
             state.currentUser = null
             state.isUserAuthenticated = false
+            state.expiry = null
         }
     }
 })

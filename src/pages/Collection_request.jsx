@@ -41,8 +41,10 @@ const Collection_request = () => {
     try {
       setDisabled((state) => !state)
       const response = await publicRequest.post("/order/registerOrder",{name, email, contactNumber, address} )
+      const resData = response.data.data
       toast.success(response.data.message)
-      socket.emit("new order", {name, email, contactNumber, address})
+      console.log(resData)
+      socket.emit("new order", resData)
       await new Promise((resolve) => setTimeout(resolve, 3000))
       // alert(response.data.message)
       setDisabled((state) => !state)

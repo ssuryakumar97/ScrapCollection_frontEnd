@@ -130,7 +130,14 @@ const Topbar = () => {
   const [notificationdropDown, setNotificationDropDown] = useState(false);
 
   const user = useSelector((state) => state.userReducer.currentUser);
-  console.log(user);
+  const expiryTime = useSelector((state) => state.userReducer.expiry);
+  console.log(expiryTime);
+
+  // useEffect(() => {
+  //   if(expiryTime < Date.now()){
+  //     dispatch(logout());
+  //   }
+  // },[])
 
   const menuRef = useRef();
   // const user = JSON.parse(localStorage.getItem("currentUser"))
@@ -278,6 +285,11 @@ const Topbar = () => {
             </DropDownList>
           )}
         </DropDownMenu>
+        <LinkItem to="/userNotification">
+          {({ isActive }) => (
+            <StyledNotificationsIcon className={isActive ? "active" : ""}/>
+          )}
+        </LinkItem>
       </RightDiv>
     </TopbarContainer>
   );

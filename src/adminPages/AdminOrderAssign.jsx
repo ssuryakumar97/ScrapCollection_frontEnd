@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   CalendarToday,
@@ -8,7 +8,14 @@ import {
   PhoneAndroid,
   Upload,
 } from "@mui/icons-material";
-import {Link} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
+import { publicRequest } from "../requestMethods";
+import {ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import io from "socket.io-client"
+import { endpoint } from "../requestMethods";
+
+var socket;
 
 const UserDiv = styled.div`
   flex: 4;
@@ -165,9 +172,70 @@ const CollectionDetails = styled.h4`
   margin: 10px 0px;
 `
 
+const ErrorDiv = styled.div`
+  color: red;
+  font-size: 14px;
+`
+
 const AssignOrder = () => {
+  const [orderData, setOrderData] = useState({})
+  const [getagentData, setGetAgentData] = useState(null)
+  const [agentDetails, setAgentDetails] = useState("")
+  const [error, setError] = useState("")
+
+  const {id} = useParams()
+  useEffect(()=>{
+    const gerOrder = async() => {
+      try {
+        const res = await publicRequest.get(`/order/getOrderById/${id}`)
+        const agent = await publicRequest.get("/order/getNotAssignedAgent")
+        console.log(res.data);
+        console.log(agent.data[0]?.email);
+        setOrderData(res.data)
+        setGetAgentData(agent.data)
+        setAgentDetails(agent.data[0].email)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    gerOrder()
+  },[])
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    console.log(e.target);
+    socket = io(endpoint)
+    try {
+      if(getagentData?.length != 0) {
+        const updatedData = await publicRequest.post("/order/agentAssignment", {
+          clientId: orderData._id,
+          collectionAgentEmail: agentDetails,
+        });
+        console.log(update.data);
+        toast.success(update.data.message)
+        const agentResData = updatedData.data;
+        console.log(agentResData);
+        socket.emit("order assigned",agentResData)
+      } else {
+        setError("Please assign the agent")
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = async(e) => {
+    console.log(e.target.value);
+    if(getagentData?.length !=0 ) {
+      setAgentDetails(e.target.value)
+    }
+  }
+  
+  console.log(orderData);
   return (
     <UserDiv>
+      <ToastContainer autoClose={3000}/>
       <UserTitleContainer>
         <UserTitle>Assign Agent</UserTitle>
       </UserTitleContainer>
@@ -175,27 +243,22 @@ const AssignOrder = () => {
         <UserShow>
           <UserShowTop>
             <UserShowTopTitle>
-              <UserShowUsername>Anna</UserShowUsername>
+              <UserShowUsername>{orderData?.name}</UserShowUsername>
             </UserShowTopTitle>
           </UserShowTop>
           <UserShowBottom>
-            <UserShowBottomTitle>Account Details</UserShowBottomTitle>
-            <UserShowInfo>
-              <PermIdentityIcon />
-              <UserShowInfoTitle>annabeck99</UserShowInfoTitle>
-            </UserShowInfo>
             <UserShowBottomTitle>Contact Details</UserShowBottomTitle>
             <UserShowInfo>
               <PhoneAndroidIcon />
-              <UserShowInfoTitle>+91 92434 49578</UserShowInfoTitle>
+              <UserShowInfoTitle>{orderData?.contactNumber}</UserShowInfoTitle>
             </UserShowInfo>
             <UserShowInfo>
               <MailOutlineIcon />
-              <UserShowInfoTitle>annabeck99@gmail.com</UserShowInfoTitle>
+              <UserShowInfoTitle>{orderData?.email}</UserShowInfoTitle>
             </UserShowInfo>
             <UserShowInfo>
               <LocationSearchingIcon />
-              <UserShowInfoTitle>Chennai | Tamil Nadu</UserShowInfoTitle>
+              <UserShowInfoTitle>{orderData?.address}</UserShowInfoTitle>
             </UserShowInfo>
           </UserShowBottom>
         </UserShow>
@@ -204,17 +267,29 @@ const AssignOrder = () => {
             <UserUpdateLeft>
               <UserUpdateItem>
                 <CollectionDetails>Collection Status:</CollectionDetails>
-                <div>pending</div>
+                <div>{orderData?.collectionStatus}</div>
               </UserUpdateItem>
               <UserUpdateItem>
               <CollectionDetails>Collection Agent Status</CollectionDetails>
-                <div>notAssigned</div>
+                <div>{orderData?.collectionAgentStatus}</div>
               </UserUpdateItem>
               <UserUpdateItem>
                 <CollectionDetails>Collection Agent Details</CollectionDetails>
-                <UserUpdateInput type="email" placeholder="abc@gmail.com" />
+                <select name="" id="" onChange={handleChange}>
+                  {getagentData?.length !=0 ? getagentData?.map((val, ind) => 
+                      
+                    (
+                      <option key={ind} value={val.email}>{val.email}</option>
+                    )
+                  
+                    
+                  ) : (
+                    <option>All collection agent's where assigned</option>
+                  )}
+                </select>
               </UserUpdateItem>
-              <UserUpdateButton>Update</UserUpdateButton>
+              <UserUpdateButton onClick={handleUpdate}>Update</UserUpdateButton>
+              {error && <ErrorDiv>{error}</ErrorDiv>}
             </UserUpdateLeft>
           </UserUpdateForm>
         </UserUpdate>

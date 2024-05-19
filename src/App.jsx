@@ -14,6 +14,7 @@ import AdminHome from "./adminPages/AdminHome"
 import AdminOrders from "./adminPages/AdminOrders"
 import AdminOrderAssign from "./adminPages/AdminOrderAssign"
 import AdminNotification from "./adminPages/AdminNotification"
+import UserNotification from "./pages/UserNotification"
 
 const PrivateRoute = ({isAuthenticated}) => {
   return isAuthenticated ?
@@ -50,6 +51,9 @@ function App() {
       <Route path='/' element={<PrivateRoute isAuthenticated={user}/>} >
         <Route path="/orders" element={<Orders/>} />
       </Route>
+      <Route path='/' element={<PrivateRoute isAuthenticated={user}/>} >
+        <Route path="/userNotification" element={<UserNotification/>} />
+      </Route>
       
       <Route path="/pricing" element={<Pricing/>} />
       
@@ -57,7 +61,7 @@ function App() {
       <Route path="/admin" element={<Admin/>} >
         <Route path="adminHome" element={<AdminHome/>} />
         <Route path="orders" element={<AdminOrders/>} />
-        <Route path="orders/:id" element={<AdminOrderAssign/>} />
+        <Route path="order/:id" element={<AdminOrderAssign/>} />
         <Route path="notification" element={<AdminNotification/>} />
       </Route>
       <Route path="/inventory" element={<Inventory/>} />

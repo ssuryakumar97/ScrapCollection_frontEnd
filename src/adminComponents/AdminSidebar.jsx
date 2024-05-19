@@ -5,14 +5,17 @@ import {Link, NavLink} from "react-router-dom"
 import Badge from '@mui/material/Badge';
 // import "../../App.css"
 import io from "socket.io-client"
-import {insertNotification, updateNotification} from "../redux/notificationRedux"
+import {insertAdminNotification} from "../redux/notificationRedux"
 import {useDispatch, useSelector} from "react-redux"
 import { endpoint } from "../requestMethods";
+import {ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const endpoint = "http://localhost:3000"
 // const endpoint = "https://scrapcollection-backend.onrender.com"
 
 var socket
+// toast.configure()
 
 const SidebarDiv = styled.div`
   flex: 1;
@@ -58,9 +61,9 @@ const ActiveLink = styled(NavLink)`
 `
 
 const AdminSidebar = () => {
-  const [notification, setNotification] = useState([])
-
   const dispatch = useDispatch()
+  const notification =  useSelector((state) => state.notificationReducer.adminNotification)
+ console.log(notification);
 
   useEffect(() => {
 
@@ -71,20 +74,20 @@ const AdminSidebar = () => {
     })
     socket.on("order received", (data) => {
       console.log(data);
-      setNotification((prev) => [...prev,data])
-      dispatch(insertNotification(data))
+      // dispatch(insertNotification([...notification,data]))
+      dispatch(insertAdminNotification(data))
+      toast("New order received!");
     })
   },[])
 
- const user =  useSelector((state) => state.notificationReducer)
- console.log(user.adminNotification);
-
-  console.log(notification)
+ 
+ 
 
   return (
     <SidebarDiv>
+      <ToastContainer autoClose={3000} position="bottom-right"/>
       <SidebarWrapper>
-        <SidebarMenu>
+        <SidebarMenu> 
           <SidebarTitle>Dashboard</SidebarTitle>
 
           <SidebarList>
@@ -161,7 +164,7 @@ const AdminSidebar = () => {
               {({ isActive }) => (
                 <SidebarListItem className={isActive ? "active" : ""}>
                   <Badge
-                    badgeContent={notification.length}
+                    badgeContent={notification?.length}
                     color="primary"
                     anchorOrigin={{
                       vertical: "top",
@@ -197,6 +200,7 @@ const AdminSidebar = () => {
           </SidebarList>
         </SidebarMenu>
       </SidebarWrapper>
+      
     </SidebarDiv>
   );
 };
