@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux'
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import io from "socket.io-client"
+import { endpoint } from '../requestMethods'
 
-const endpoint = "http://localhost:3000"
+// const endpoint = "http://localhost:3000"
 
 var socket
 
