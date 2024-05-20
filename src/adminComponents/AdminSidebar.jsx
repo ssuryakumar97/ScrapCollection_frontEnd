@@ -62,7 +62,7 @@ const ActiveLink = styled(NavLink)`
 
 const AdminSidebar = () => {
   const dispatch = useDispatch()
-  const notification =  useSelector((state) => state.notificationReducer.adminNotification)
+  const notification =  useSelector((state) => state.notification.adminNotification)
  console.log(notification);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userRedux";
-import notificationReducer from "./notificationRedux"
+import userReducer from "./userRedux.js";
+import notificationReducer from "./notificationRedux.js"
 import {
     persistStore,
     persistReducer,
@@ -19,7 +19,7 @@ import {
     storage,
   };
 
-  const combinedReducer = combineReducers({userReducer, notificationReducer})
+  const combinedReducer = combineReducers({user:userReducer, notification:notificationReducer})
 
   const persistedReducer = persistReducer(persistConfig, combinedReducer);
 

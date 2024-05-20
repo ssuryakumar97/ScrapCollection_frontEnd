@@ -6,6 +6,14 @@ import { logout } from "../redux/userRedux";
 import { NavLink, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications"
+import Badge from '@mui/material/Badge';
+import { io } from "socket.io-client";
+import { endpoint } from "../requestMethods";
+import {ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { insertUserNotification } from "../redux/notificationRedux";
+
+var socket;
 
 const TopbarContainer = styled.div`
   display: flex;
@@ -129,9 +137,11 @@ const Topbar = () => {
   const [dropDown, setDropDown] = useState(false);
   const [notificationdropDown, setNotificationDropDown] = useState(false);
 
-  const user = useSelector((state) => state.userReducer.currentUser);
-  const expiryTime = useSelector((state) => state.userReducer.expiry);
-  console.log(expiryTime);
+  const user = useSelector((state) => state.user.currentUser);
+  const expiryTime = useSelector((state) => state.user.expiry);
+  const userNotification = useSelector((state) => state.notification.userNotification)
+  // console.log(userNotification)
+  // console.log(expiryTime);
 
   // useEffect(() => {
   //   if(expiryTime < Date.now()){
@@ -159,6 +169,16 @@ const Topbar = () => {
       window.removeEventListener("mousedown", handler);
     };
   }, []);
+
+  useEffect(()=> {
+    socket = io(endpoint);
+
+    socket.on("order assigned",(data) => {
+      console.log(data);
+      dispatch(insertUserNotification(data))
+      toast("New order received!");
+    })
+  },[])
 
   // useEffect(() => {
   //   const getUser = async () => {
@@ -189,13 +209,14 @@ const Topbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("token");
+    //  localStorage.removeItem("persist:root");
+    //  localStorage.clear()
     navigate("/login");
   };
 
   const handleLogin = () => {
+    // localStorage.removeItem("persist:root");
     dispatch(logout());
-    localStorage.removeItem("token");
     navigate("/login");
   };
 
@@ -287,7 +308,9 @@ const Topbar = () => {
         </DropDownMenu>
         <LinkItem to="/userNotification">
           {({ isActive }) => (
-            <StyledNotificationsIcon className={isActive ? "active" : ""}/>
+            <Badge badgeContent={userNotification.length} color="success">
+              <StyledNotificationsIcon className={isActive ? "active" : ""}/>
+            </Badge>
           )}
         </LinkItem>
       </RightDiv>

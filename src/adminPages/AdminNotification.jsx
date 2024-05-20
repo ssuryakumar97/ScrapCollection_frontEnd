@@ -18,7 +18,7 @@ const NotifiDiv = styled.div`
 `
 
 const AdminNotification = () => {
-  const notification =  useSelector((state) => state.notificationReducer.adminNotification)
+  const notification =  useSelector((state) => state.notification.adminNotification)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 

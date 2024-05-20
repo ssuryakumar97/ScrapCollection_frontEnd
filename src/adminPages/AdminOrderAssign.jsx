@@ -211,8 +211,8 @@ const AssignOrder = () => {
           clientId: orderData._id,
           collectionAgentEmail: agentDetails,
         });
-        console.log(update.data);
-        toast.success(update.data.message)
+        console.log(updatedData.data);
+        toast.success(updatedData.data.message)
         const agentResData = updatedData.data;
         console.log(agentResData);
         socket.emit("order assigned",agentResData)

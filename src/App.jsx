@@ -28,7 +28,7 @@ const PrivateRoute = ({isAuthenticated}) => {
 function App() {
   // const [userAthenticated, setUserAuthenticated] = useState(false)
   
-  const user = useSelector((state) => state.userReducer.isUserAuthenticated)
+  const user = useSelector((state) => state.user.isUserAuthenticated)
  
   // setUserAuthenticated(user);
 

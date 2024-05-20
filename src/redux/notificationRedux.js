@@ -4,7 +4,9 @@ const notificationSlice = createSlice({
     name: "notification",
     initialState: {
         adminNotification: [],
-        userNotification: []
+        userNotification: [],   
+        data: null,
+        user: null
     },
     reducers:{
         insertAdminNotification : (state, action) => {
@@ -15,7 +17,7 @@ const notificationSlice = createSlice({
             state.adminNotification = action.payload
         },
         insertUserNotification : (state, action) => {
-            state.userNotification = [...state.adminNotification, action.payload]
+            state.userNotification = [...state.userNotification, action.payload]
             // state.adminNotification = action.payload
         },
         updateUserNotification :(state, action) => {
@@ -24,5 +26,5 @@ const notificationSlice = createSlice({
     }
 })
 
-export const { insertAdminNotification, updateAdminNotification} = notificationSlice.actions;
+export const { insertAdminNotification, updateAdminNotification, insertUserNotification, updateUserNotification} = notificationSlice.actions;
 export default notificationSlice.reducer;
