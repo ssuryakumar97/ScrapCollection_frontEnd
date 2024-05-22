@@ -170,15 +170,18 @@ const Topbar = () => {
     };
   }, []);
 
-  useEffect(()=> {
-    socket = io(endpoint);
+  // useEffect(()=> {
+  //   socket = io(endpoint);
+  //   console.log(user)
 
-    socket.on("order assigned",(data) => {
-      console.log(data);
-      dispatch(insertUserNotification(data))
-      toast("New order received!");
-    })
-  },[])
+  //   socket.on("order assigned",(data) => {
+  //     console.log(data);
+  //     if(user.email == data.orderData.email){
+  //       dispatch(insertUserNotification(data))
+  //       toast("New order received!");
+  //     }
+  //   })
+  // },[])
 
   // useEffect(() => {
   //   const getUser = async () => {
@@ -208,15 +211,15 @@ const Topbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout());
-    //  localStorage.removeItem("persist:root");
+    // dispatch(logout());
+     localStorage.removeItem("persist:root");
     //  localStorage.clear()
     navigate("/login");
   };
 
   const handleLogin = () => {
-    // localStorage.removeItem("persist:root");
-    dispatch(logout());
+    localStorage.removeItem("persist:root");
+    // dispatch(logout());
     navigate("/login");
   };
 

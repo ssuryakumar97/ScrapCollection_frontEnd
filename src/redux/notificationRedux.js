@@ -4,9 +4,7 @@ const notificationSlice = createSlice({
     name: "notification",
     initialState: {
         adminNotification: [],
-        userNotification: [],   
-        data: null,
-        user: null
+        userNotification: [],
     },
     reducers:{
         insertAdminNotification : (state, action) => {

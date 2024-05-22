@@ -7,10 +7,11 @@ import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import io from "socket.io-client"
 import { endpoint } from '../requestMethods'
+import { socket } from '../requestMethods'
 
 // const endpoint = "http://localhost:3000"
 
-var socket
+// var socket
 
 // toast.configure();
 
@@ -30,7 +31,7 @@ const Collection_request = () => {
   const email= useSelector((state) => state.user.currentUser.email)
 
   useEffect(() => {
-    socket = io(endpoint)
+    // socket = io(endpoint)
   
     socket.on("order registration", (data) => {
       console.log(data);

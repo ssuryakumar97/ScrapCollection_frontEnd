@@ -65,20 +65,20 @@ const AdminSidebar = () => {
   const notification =  useSelector((state) => state.notification.adminNotification)
  console.log(notification);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    socket = io(endpoint)
+  //   socket = io(endpoint)
   
-    socket.on("order registration", (data) => {
-      console.log(data);
-    })
-    socket.on("order received", (data) => {
-      console.log(data);
-      // dispatch(insertNotification([...notification,data]))
-      dispatch(insertAdminNotification(data))
-      toast("New order received!");
-    })
-  },[])
+  //   socket.on("order registration", (data) => {
+  //     console.log(data);
+  //   })
+  //   socket.on("order received", (data) => {
+  //     console.log(data);
+  //     // dispatch(insertNotification([...notification,data]))
+  //     dispatch(insertAdminNotification(data))
+  //     toast("New order received!");
+  //   })
+  // },[])
 
  
  

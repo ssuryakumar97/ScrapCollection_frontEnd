@@ -14,8 +14,9 @@ import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import io from "socket.io-client"
 import { endpoint } from "../requestMethods";
+import { socket } from "../requestMethods";
 
-var socket;
+// var socket;
 
 const UserDiv = styled.div`
   flex: 4;
@@ -204,7 +205,7 @@ const AssignOrder = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     console.log(e.target);
-    socket = io(endpoint)
+    // socket = io(endpoint)
     try {
       if(getagentData?.length != 0) {
         const updatedData = await publicRequest.post("/order/agentAssignment", {
@@ -212,10 +213,10 @@ const AssignOrder = () => {
           collectionAgentEmail: agentDetails,
         });
         console.log(updatedData.data);
-        toast.success(updatedData.data.message)
         const agentResData = updatedData.data;
         console.log(agentResData);
         socket.emit("order assigned",agentResData)
+        toast.success(updatedData.data.message)
       } else {
         setError("Please assign the agent")
       }

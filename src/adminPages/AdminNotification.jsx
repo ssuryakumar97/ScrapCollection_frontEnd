@@ -36,7 +36,7 @@ const AdminNotification = () => {
         <NotifiDiv key={ind} onClick={() => handleClick(curr)}>
           <p>You got new collection request from the user<strong> {curr.name}</strong> with email <strong>{curr.email}</strong></p>
         </NotifiDiv>
-      )): (<div>No new notification to show</div>)}
+      )): (<NotifiDiv>No new notification to show</NotifiDiv>)}
     </NotificationDiv>
   )
 }
