@@ -281,6 +281,14 @@ const Topbar = () => {
           )}
         </LinkItem>
 
+        <LinkItem to="/quotation-request">
+          {({ isActive }) => (
+            <SidebarDiv className={isActive ? "active" : ""}>
+              Quotation Request
+            </SidebarDiv>
+          )}
+        </LinkItem>
+
         <LinkItem to="/collection-request">
           {({ isActive }) => (
             <SidebarDiv className={isActive ? "active" : ""}>

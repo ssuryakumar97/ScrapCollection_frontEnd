@@ -282,7 +282,6 @@ const AssignOrder = () => {
                     (
                       <option key={ind} value={val.email}>{val.email}</option>
                     )
-                  
                     
                   ) : (
                     <option>All collection agent's where assigned</option>

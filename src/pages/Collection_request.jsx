@@ -30,13 +30,13 @@ const Collection_request = () => {
 
   const email= useSelector((state) => state.user.currentUser.email)
 
-  useEffect(() => {
-    // socket = io(endpoint)
+  // useEffect(() => {
+  //   // socket = io(endpoint)
   
-    socket.on("order registration", (data) => {
-      console.log(data);
-    })
-  },[])
+  //   socket.on("order registration", (data) => {
+  //     console.log(data);
+  //   })
+  // },[])
 
   const handleSubmit = async(e) => {
     e.preventDefault()

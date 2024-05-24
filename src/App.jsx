@@ -21,6 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { io } from "socket.io-client"
 import { endpoint } from "./requestMethods"
 import { socket } from "./requestMethods"
+import Quotation_request from "./pages/Quotation_request"
 
 // var socket;
 
@@ -38,7 +39,7 @@ function App() {
   
   const {currentUser:user, isUserAuthenticated } = useSelector((state) => state.user)
   const dispatch = useDispatch()
- 
+ console.log(user)
   // setUserAuthenticated(user);
   useEffect(() => {
     // socket = io(endpoint)
@@ -47,16 +48,23 @@ function App() {
       console.log(data);
     })
     socket.on("order received", (data) => {
-      if(user?.isAdmin){
+      const userData = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser
+      console.log(userData)
+      console.log(isUserAuthenticated)
+      if(userData?.isAdmin){
         console.log(data);
         // dispatch(insertNotification([...notification,data]))
         dispatch(insertAdminNotification(data))
         toast("New order received!");
       }
     })
-    socket.on("order assigned",(data) => {
-      console.log(data);
-      if(user?.email == data?.orderData.email){
+    socket.on("new order assigned",(data) => {
+      const userData = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser
+      if(userData?.email == data?.orderData.email){
+        dispatch(insertUserNotification(data))
+        toast("New order received!");
+      }
+      if(userData?.email == data?.agentData.email){
         dispatch(insertUserNotification(data))
         toast("New order received!");
       }
@@ -68,7 +76,7 @@ function App() {
   return (
     <>
     <BrowserRouter>
-    <ToastContainer />
+    <ToastContainer autoClose={3000}/>
     <Routes>
       {/* <Route path='/' element={<PrivateRoute isAuthenticated={user}/>} >
             <Route path='/' element={ <Home />} />
@@ -76,6 +84,9 @@ function App() {
       <Route path="/" element={<Home/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>} />
+      <Route path='/' element={<PrivateRoute isAuthenticated={isUserAuthenticated}/>} >
+        <Route path="/quotation-request" element={<Quotation_request/>} />
+      </Route>
       <Route path='/' element={<PrivateRoute isAuthenticated={isUserAuthenticated}/>} >
         <Route path="/collection-request" element={<Collection_request/>} />
       </Route>
