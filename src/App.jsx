@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import Collection_request from "./pages/Collection_request";
 import Pricing from "./pages/Pricing";
 import Orders from "./pages/Orders";
-import AboutUs from "./pages/AboutUs";
+// import AboutUs from "./pages/AboutUs";
 import Admin from "./pages/Admin";
 import Inventory from "./pages/Inventory";
 import AdminUsers from "./adminPages/AdminUsers";
