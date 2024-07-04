@@ -143,11 +143,12 @@ const Topbar = () => {
   // console.log(userNotification)
   // console.log(expiryTime);
 
-  // useEffect(() => {
-  //   if(expiryTime < Date.now()){
-  //     dispatch(logout());
-  //   }
-  // },[])
+  useEffect(() => {
+    if(expiryTime < Date.now() && user != null){
+      dispatch(logout());
+      // window.location.reload();
+    }
+  },[])
 
   const menuRef = useRef();
   // const user = JSON.parse(localStorage.getItem("currentUser"))
@@ -215,17 +216,23 @@ const Topbar = () => {
      localStorage.removeItem("persist:root");
     //  localStorage.clear()
     navigate("/login");
+    window.location.reload()
   };
 
   const handleLogin = () => {
     localStorage.removeItem("persist:root");
     // dispatch(logout());
     navigate("/login");
+    window.location.reload()
   };
 
   const handleOrders = () => {
     navigate("/orders");
   };
+
+  const handleQuotations = () => {
+    navigate("/quotations")
+  }
 
   return (
     <TopbarContainer>
@@ -244,7 +251,7 @@ const Topbar = () => {
 
         {user?.isAdmin && (
           <>
-            <LinkItem to="/admin/adminHome">
+            <LinkItem to="/admin/users">
               {({ isActive }) => (
                 <SidebarDiv className={isActive ? "active" : ""}>
                   Admin
@@ -270,6 +277,13 @@ const Topbar = () => {
                 </SidebarDiv>
               )}
             </LinkItem>
+            <LinkItem to="/agentOrders">
+              {({ isActive }) => (
+                <SidebarDiv className={isActive ? "active" : ""}>
+                  Orders
+                </SidebarDiv>
+              )}
+            </LinkItem>
           </>
         )}
 
@@ -281,6 +295,9 @@ const Topbar = () => {
           )}
         </LinkItem>
 
+{(!user?.isCollectionAgent && !user?.isAdmin) &&
+        (
+        <>
         <LinkItem to="/quotation-request">
           {({ isActive }) => (
             <SidebarDiv className={isActive ? "active" : ""}>
@@ -296,12 +313,10 @@ const Topbar = () => {
             </SidebarDiv>
           )}
         </LinkItem>
+        </>)
+}
 
-        <LinkItem to="/about">
-          {({ isActive }) => (
-            <SidebarDiv className={isActive ? "active" : ""}>About</SidebarDiv>
-          )}
-        </LinkItem>
+        
 
         <DropDownMenu ref={menuRef}>
           <StyledAccountCircleIcon
@@ -310,7 +325,12 @@ const Topbar = () => {
           {dropDown && (
             <DropDownList>
               <UnorderedList>
+              {(!user?.isCollectionAgent && !user?.isAdmin) && ( 
+                <>
                 <ListItem onClick={handleOrders}>Orders</ListItem>
+                <ListItem onClick={handleQuotations}>Quotations</ListItem>
+                </>
+              )}
                 <ListItem onClick={handleLogin}>Login</ListItem>
                 <ListItem onClick={handleLogout}>Logout</ListItem>
               </UnorderedList>

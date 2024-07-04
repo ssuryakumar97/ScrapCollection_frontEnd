@@ -4,9 +4,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { orderRows } from "../dummyData";
 import {Link} from "react-router-dom"
-import { publicRequest } from "../requestMethods";
+import { publicRequest, userRequest } from "../requestMethods";
 import io from "socket.io-client"
 import { endpoint } from "../requestMethods";
+import { ToastContainer, toast } from "react-toastify";
 // const endpoint = "http://localhost:3000"
 // const endpoint = "https://scrapcollection-backend.onrender.com"
 
@@ -56,16 +57,10 @@ const AdminOrders = () => {
   const [data, setData] = useState([])
   const [edit, setEdit] = useState(false)
 
-  const handleDelete = (id) => {
-  setData(data.filter(val => val._id !== _id))
-}
-
-
-
 useEffect(() => {
   const getOrders = async() => {
     try {
-     const res = await publicRequest.get("/order/getAllOrders")
+     const res = await userRequest.get("/order/getAllOrders")
     // console.log(res.data);
     setData(res.data)
     } catch (error) {
@@ -86,6 +81,17 @@ useEffect(() => {
     console.log(data);
   })
 },[])
+
+const handleDelete = async(id) => {
+  const deletedResponse = await userRequest.delete(`/order/deleteOrderById/${id}`)
+  
+  if(deletedResponse.data.deletedCount === 1){
+    toast.success("Data deleted successfully")
+  } else {
+    toast.error("Something went wrong")
+  }
+setData(data.filter(val => val._id !== id))
+}
 
 
 
@@ -121,18 +127,24 @@ useEffect(() => {
       field: "collectionAgentDetails",
       headerName: "Agent Details",
       width: 120,
+      renderCell: (params) => {
+        // console.log(params)
+        return params.value?.email
+
+      }
     },
     {
       field: "action",
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
+        // console.log(params)
         return (
           <UserListEditDiv>
-            <Link to={"/admin/orders/"+params.row.id}>
+            <Link to={"/admin/order/"+params.row._id}>
               <UserListEditButton>Edit</UserListEditButton>
             </Link>
-            <DeleteOutlineIconStyled onClick={()=>handleDelete(params.row.id)}/>
+            <DeleteOutlineIconStyled onClick={()=>handleDelete(params.row._id)}/>
           </UserListEditDiv>
         );
       },
@@ -140,7 +152,8 @@ useEffect(() => {
   ];
   return (
     <UserListDiv>
-      <DataGrid
+      <ToastContainer autoClose={2000} />
+      <DataGrid 
         rows={data}
         getRowId={(row) => row._id}
         disableRowSelectionOnClick
@@ -153,6 +166,7 @@ useEffect(() => {
         pageSizeOptions={[5, 10]}
         checkboxSelection
       />
+      
     </UserListDiv>
   );
 };

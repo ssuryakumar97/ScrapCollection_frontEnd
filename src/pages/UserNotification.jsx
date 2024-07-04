@@ -2,6 +2,7 @@ import React from 'react'
 import Topbar from '../components/Topbar'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const NotifiDiv = styled.div`
   margin: 15px 5px;
@@ -14,17 +15,38 @@ const NotifiDiv = styled.div`
 const UserNotification = () => {
 
   const userNotification = useSelector((state) => state.notification.userNotification)
+  const navigate = useNavigate()
   console.log(userNotification);
+
+  const handleClick = (val) => {
+    console.log(val)
+    if(val?.notificationType === "quotation"){
+      navigate(`/quotationDetails/${val._id}`)
+    } else {
+      navigate(`/orderDetails/${val.orderData._id}`)
+    }
+  }
 
   return (
     <div>
         <Topbar/>
       <div>
-        {userNotification.length !=0 ? userNotification.map((val, ind) => (
-          <NotifiDiv key={ind}>
-            Your order with reference number <strong>{val.orderData._id}</strong> is assigned to the agent <strong>{val.agentData.name}</strong>
+        {userNotification.length !=0 ? userNotification.map((val, ind) => {
+          console.log(val)
+          if(val.notificationType === "quotation"){
+            return (
+              <NotifiDiv key={ind} onClick={() => handleClick(val)}>
+            Your quotation request for the request id <strong>{val._id}</strong> is received 
              {/* {val}  */}
-          </NotifiDiv>)
+          </NotifiDiv>)} else {
+             return (
+                <NotifiDiv key={ind} onClick={() => handleClick(val)}>
+              Your order with reference number <strong>{val.orderData._id}</strong> is assigned to the agent <strong>{val.agentData.name}</strong>
+               {/* {val}  */}
+                </NotifiDiv>)
+          }
+          }
+          
 
         ) : <NotifiDiv>No notification to show</NotifiDiv>}
       </div>

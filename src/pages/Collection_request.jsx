@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Topbar from '../components/Topbar'
 import styled from 'styled-components'
-import { publicRequest } from '../requestMethods'
+import { userRequest } from '../requestMethods'
 import { useSelector } from 'react-redux'
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,7 +42,7 @@ const Collection_request = () => {
     e.preventDefault()
     try {
       setDisabled((state) => !state)
-      const response = await publicRequest.post("/order/registerOrder",{name, email, contactNumber, address} )
+      const response = await userRequest.post("/order/registerOrder",{name, email, contactNumber, address} )
       const resData = response.data.data
       toast.success(response.data.message)
       console.log(resData)

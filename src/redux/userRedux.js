@@ -13,7 +13,7 @@ const userSlice = createSlice({
             // localStorage.setItem("currentUser", JSON.stringify(action.payload))
             state.currentUser = action.payload
             state.isUserAuthenticated = true
-            state.expiry = Date.now() + 10000
+            state.expiry = Date.now() + (1000 * 60 * 60)
         },
         logout:(state) => {
             state.currentUser = null

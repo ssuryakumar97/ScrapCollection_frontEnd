@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import Topbar from '../components/Topbar'
 import styled from "styled-components";
 import {
   CalendarToday,
@@ -6,14 +8,11 @@ import {
   MailOutline,
   PermIdentity,
   PhoneAndroid,
+  Try,
   Upload,
 } from "@mui/icons-material";
-import { useNavigate, useParams} from "react-router-dom"
-import { userRequest } from "../requestMethods";
-import {ToastContainer, toast } from "react-toastify";
+import { endpoint, userRequest } from '../requestMethods';
 
-
-import { socket } from "../requestMethods";
 
 // var socket;
 
@@ -137,74 +136,51 @@ const ErrorDiv = styled.div`
   font-size: 14px;
 `
 
-const AssignOrder = () => {
-  const [orderData, setOrderData] = useState({})
-  const [getagentData, setGetAgentData] = useState(null)
-  const [agentDetails, setAgentDetails] = useState("")
-  const [disableButton, setDisableButton] = useState(false)
-  const [error, setError] = useState("")
-
-  const navigate = useNavigate()
-  const {id} = useParams()
-  useEffect(()=>{
-    const gerOrder = async() => {
-      try {
-        const res = await userRequest.get(`/order/getOrderById/${id}`)
-        const agent = await userRequest.get("/order/getNotAssignedAgent")
-        console.log(res.data);
-        console.log(agent.data[0]?.email);
-        setOrderData(res.data)
-        setGetAgentData(agent.data)
-        setAgentDetails(agent.data[0].email)
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    gerOrder()
-  },[])
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    // console.log(e.target);
-    // socket = io(endpoint)
-    try {
-      setDisableButton(val => !val)
-      if(getagentData?.length != 0) {
-        const updatedData = await userRequest.post("/order/agentAssignment", {
-          clientId: orderData._id,
-          collectionAgentEmail: agentDetails,
-        });
-        const agentResData = updatedData.data;
-        // console.log(agentResData)
-        socket.emit("order assigned",agentResData)
-        toast.success(agentResData.message)
-        await new Promise(resolve => setTimeout(resolve,2000))
-        setDisableButton(val => !val)
-        if(agentResData.message === "Updated successfully"){
-          navigate("/admin/orders")
-        }
-      } else {
-        setError("Please assign the agent")
-      }
-      
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleChange = async(e) => {
-    console.log(e.target.value);
-    if(getagentData?.length !=0 ) {
-      setAgentDetails(e.target.value)
-    }
-  }
+const TableDiv = styled.div`
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.75);
+  margin: 20px;
   
-  console.log(orderData);
+`;
+
+const OrderTable = styled.table`
+  margin: 20px auto;
+  
+`
+
+const TableImage = styled.img`
+  width: 50px;
+  height: 50px;
+`;
+
+const OrderDetails = () => {
+
+  const [orderData, setOrderData] = useState({})
+    
+  const {id} = useParams()
+    useEffect(()=>{
+      const getOrderDetails = async() => {
+        try {
+          const res = await userRequest.get(`/order/getOrderById/${id}`)
+          setOrderData(res.data)
+          console.log(res.data);
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      getOrderDetails();
+    },[])
+
+    console.log(orderData)
   return (
-    <UserDiv>
-      <ToastContainer autoClose={3000}/>
+    <div>
+        <Topbar/>
+        <UserDiv>
+      {/* <ToastContainer autoClose={3000}/> */}
       <UserTitleContainer>
-        <UserTitle>Assign Agent</UserTitle>
+        <UserTitle>Order Details</UserTitle>
       </UserTitleContainer>
       <UserContainer>
         <UserShow>
@@ -242,26 +218,63 @@ const AssignOrder = () => {
               </UserUpdateItem>
               <UserUpdateItem>
                 <CollectionDetails>Collection Agent Details</CollectionDetails>
-                <select name="" id="" onChange={handleChange}>
-                  {getagentData?.length !=0 ? getagentData?.map((val, ind) => 
-                      
-                    (
-                      <option key={ind} value={val.email}>{val.email}</option>
-                    )
-                    
-                  ) : (
-                    <option>All collection agent's where assigned</option>
-                  )}
-                </select>
+                <div>Email:&nbsp;&nbsp;{orderData?.collectionAgentDetails?.email}</div>
+                <div>Name:&nbsp;&nbsp;{orderData?.collectionAgentDetails?.name}</div>
+                <div>Contact Number:&nbsp;&nbsp;{orderData?.collectionAgentDetails?.contactNumber}</div>
               </UserUpdateItem>
-              <UserUpdateButton disabled={disableButton} className={disableButton? "disabled_button" : "normal_button"} onClick={handleUpdate}>Update</UserUpdateButton>
-              {error && <ErrorDiv>{error}</ErrorDiv>}
             </UserUpdateLeft>
           </UserUpdateForm>
         </UserUpdate>
       </UserContainer>
+      {orderData.materialSoldDetails != null &&
+      <TableDiv>
+          <OrderTable>
+            <caption>
+              <h4>Material Table</h4>
+            </caption>
+            <thead>
+              <tr>
+                <th style={{ width: "40px" }}>S.No</th>
+                <th style={{ width: "100px" }}>Image</th>
+                <th style={{ width: "100px" }}>Name</th>
+                <th style={{ width: "150px" }}>Description</th>
+                <th style={{ width: "80px" }}>Quantity</th>
+                <th style={{ width: "80px" }}>Price per unit</th>
+                <th style={{ width: "80px", padding: "0px 10px" }}>
+                  Measuring Units
+                </th>
+                <th style={{ width: "80px" }}>Total price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orderData.materialSoldDetails.materialSold.map((val, ind) => (
+                <tr key={ind}>
+                  <td>{ind + 1}</td>
+                  <td>
+                    <TableImage
+                      src={`${endpoint}/api/image/download/${val.image}`}
+                      alt="Image"
+                    />
+                  </td>
+                  {/* <td><img src= "http://localhost:3000/api/image/download/1717053911301_recycling_images.jpg" alt="Image" /></td> */}
+                  <td>{val.title}</td>
+                  <td>{val.description}</td>
+                  <td>{val.quantity}</td>
+                  <td>{val.price}</td>
+                  <td>{val.unitsOfMeasurement}</td>
+                  <td>{val.totalPrice}</td>
+                </tr>
+              ))}
+            </tbody>
+            {orderData.materialSoldDetails.materialSold.length!=0 && (<tfoot><tr><td colSpan={9}>Grand Total: {orderData.materialSoldDetails.materialSold.reduce((acc,val) => {
+              return acc+val.totalPrice 
+            }, 0)}</td></tr></tfoot>)}
+          </OrderTable>
+        </TableDiv>
+}
     </UserDiv>
-  );
-};
+    </div>
+  )
+}
 
-export default AssignOrder;
+export default OrderDetails

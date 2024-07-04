@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Timeline, LineStyle, TrendingUp, PersonOutline, Inventory, AssessmentOutlined, CurrencyRupeeOutlined, Mail, Feedback, ChatBubble, Work, Report, Notifications, SupportAgent, ShoppingCart } from "@mui/icons-material";
+import { Timeline, LineStyle, TrendingUp, PersonOutline, Inventory, AssessmentOutlined, CurrencyRupeeOutlined, Mail, Feedback, ChatBubble, Work, Report, Notifications, SupportAgent, ShoppingCart, RequestQuote } from "@mui/icons-material";
 import {Link, NavLink} from "react-router-dom"
 import Badge from '@mui/material/Badge';
 // import "../../App.css"
@@ -62,8 +62,8 @@ const ActiveLink = styled(NavLink)`
 
 const AdminSidebar = () => {
   const dispatch = useDispatch()
-  const notification =  useSelector((state) => state.notification.adminNotification)
- console.log(notification);
+  const {adminNotification, quotationNotification} =  useSelector((state) => state.notification)
+//  console.log(notification);
 
   // useEffect(() => {
 
@@ -87,25 +87,8 @@ const AdminSidebar = () => {
     <SidebarDiv>
       <ToastContainer autoClose={3000} position="bottom-right"/>
       <SidebarWrapper>
-        <SidebarMenu> 
-          <SidebarTitle>Dashboard</SidebarTitle>
 
-          <SidebarList>
-            <ActiveLink to="/admin/adminHome">
-              {({ isActive }) => (
-                <SidebarListItem className={isActive ? "active" : ""}>
-                  <LineStyle style={{ marginRight: "5px", fontSize: "20px" }} />
-                  Home
-                </SidebarListItem>
-              )}
-            </ActiveLink>
-
-            <SidebarListItem>
-              <TrendingUp style={{ marginRight: "5px", fontSize: "20px" }} />
-              Sales
-            </SidebarListItem>
-          </SidebarList>
-        </SidebarMenu>
+          
         <SidebarMenu>
           <SidebarTitle>Quick Menu</SidebarTitle>
 
@@ -130,20 +113,6 @@ const AdminSidebar = () => {
                 </SidebarListItem>
               )}
             </ActiveLink>
-            <ActiveLink to="/admin/inventory">
-              {({ isActive }) => (
-                <SidebarListItem className={isActive ? "active" : ""}>
-                  <Inventory style={{ marginRight: "5px", fontSize: "20px" }} />
-                  Inventory
-                </SidebarListItem>
-              )}
-            </ActiveLink>
-            <SidebarListItem>
-              <AssessmentOutlined
-                style={{ marginRight: "5px", fontSize: "20px" }}
-              />
-              Reports
-            </SidebarListItem>
           </SidebarList>
         </SidebarMenu>
         <SidebarMenu>
@@ -164,7 +133,7 @@ const AdminSidebar = () => {
               {({ isActive }) => (
                 <SidebarListItem className={isActive ? "active" : ""}>
                   <Badge
-                    badgeContent={notification?.length}
+                    badgeContent={adminNotification?.length}
                     color="primary"
                     anchorOrigin={{
                       vertical: "top",
@@ -179,26 +148,38 @@ const AdminSidebar = () => {
                 </SidebarListItem>
               )}
             </ActiveLink>
-            <SidebarListItem>
-              <Feedback style={{ marginRight: "5px", fontSize: "20px" }} />
-              Feedback
-            </SidebarListItem>
-            <SidebarListItem>
-              <ChatBubble style={{ marginRight: "5px", fontSize: "20px" }} />
-              Messages
-            </SidebarListItem>
+            <ActiveLink to="/admin/quotations">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                    <RequestQuote
+                      style={{ marginRight: "5px", fontSize: "20px" }}
+                    />
+                  Quotations
+                </SidebarListItem>
+              )}
+            </ActiveLink>
+            <ActiveLink to="/admin/quotationNotification">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                  <Badge
+                    badgeContent={quotationNotification?.length}
+                    color="primary"
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    <Notifications
+                      style={{ marginRight: "5px", fontSize: "20px" }}
+                    />
+                  </Badge>
+                  Quotation Notification
+                </SidebarListItem>
+              )}
+            </ActiveLink>
           </SidebarList>
         </SidebarMenu>
-        <SidebarMenu>
-          <SidebarTitle>Staff</SidebarTitle>
-
-          <SidebarList>
-            <SidebarListItem>
-              <Work style={{ marginRight: "5px", fontSize: "20px" }} />
-              Manage
-            </SidebarListItem>
-          </SidebarList>
-        </SidebarMenu>
+       
       </SidebarWrapper>
       
     </SidebarDiv>

@@ -94,8 +94,15 @@ const Login = () => {
     
     try {
       const loginResponse = await publicRequest.post("/user/login", values)
-      dispatch(login(loginResponse.data.data))
-      navigate("/")
+      console.log(loginResponse.data)
+       dispatch(login(loginResponse.data.data))
+       if(loginResponse.data.message == "Login Successful"){
+        navigate("/")
+        await new Promise((resolve) => setTimeout(resolve,1000))
+        window.location.reload()
+       }
+      
+    //  return redirect("/")
     } catch (error) {
       console.log(error)
       actions.setErrors(error.response.data)
