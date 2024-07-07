@@ -1,7 +1,7 @@
 import React from 'react'
 import Topbar from '../components/Topbar'
 import AdminSidebar from "../adminComponents/AdminSidebar"
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 
 import styled from 'styled-components'

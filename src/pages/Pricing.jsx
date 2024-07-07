@@ -32,13 +32,13 @@ const Pricing = () => {
   useEffect(() => {
     const data = async() => {
       const res = await userRequest("/material/getAllMaterials")
-      console.log(res.data)
+      // console.log(res.data)
       setPricingData(res.data)
     }
     data()
   },[])
 
-  console.log(pricingData)
+  // console.log(pricingData)
 
   return (
     <div>

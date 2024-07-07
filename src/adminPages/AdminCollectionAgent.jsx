@@ -51,13 +51,11 @@ const AdminCollectionAgent = () => {
         getAllUsers()
     },[updatedUser])
 
-    console.log(collectionAgent)
+    // console.log(collectionAgent)
 
     const handleUpdate = async(id, email) => {
-      console.log(id)
-      console.log(email)
       const updateUser = await userRequest.post("/user/updateUsers", {adminEmail: adminEmail, userEmail: email, isAgent})
-      console.log(updateUser.data)
+      // console.log(updateUser.data)
       setUpdatedUser(updateUser.data)
       toast.success(updateUser.data.message)
       setEditId("")
@@ -72,8 +70,6 @@ const AdminCollectionAgent = () => {
           setCollectionAgent(newData)
         }
     } 
-
-    console.log(isAgent)
 
     const columns = [
         { field: "_id", headerName: "ID", width: 200 },

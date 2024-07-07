@@ -42,6 +42,9 @@ import AddCollectedMaterials from "./pages/AddCollectedMaterials";
 import Quotations from "./pages/Quotations";
 import InventoryMaterialsInfo from "./pages/InventoryMaterialsInfo";
 import AdminCollectionAgent from "./adminPages/AdminCollectionAgent";
+import AdminMaterials from "./adminPages/AdminMaterials";
+import AdminMaterial from "./adminPages/AdminMaterial";
+import AdminMaterialEdit from "./adminPages/AdminMaterialEdit";
 
 
 // var socket;
@@ -57,35 +60,20 @@ const PrivateRoute = ({ isAuthenticated }) => {
 };
 
 const App = () => {
-  // const [userAthenticated, setUserAuthenticated] = useState(false)
 
   const { currentUser: user, isUserAuthenticated } = useSelector(
     (state) => state.user
   );
   const dispatch = useDispatch();
-  // console.log(user);
 
-  useEffect(()=>{
-    // window.location.reload()
-
-  },[user])
-  // setUserAuthenticated(user);
+  
   useEffect(() => {
-    // socket = io(endpoint)
-    // window.location.reload()
-    console.log(user);
-    // const userData =
-    //   localStorage.getItem("persist:root") == null
-    //     ? ""
-    //     : JSON.parse(JSON.parse(localStorage.getItem("persist:root"))?.user)
-    //         .currentUser;
-    // console.log(userData);
     socket.on("order registration", (data) => {
-      console.log(data);
+      // console.log(data);
     });
     socket.on("order received", (data) => {
       if (user?.isAdmin) {
-        console.log(data);
+        // console.log(data);
         // dispatch(insertNotification([...notification,data]))
         dispatch(insertAdminNotification(data));
         toast("New order received!");
@@ -103,14 +91,14 @@ const App = () => {
     });
     socket.on("new quotation received", (data) => {
       if (user?.isAdmin) {
-        console.log(data);
+        // console.log(data);
         dispatch(insertQuotationNotification(data));
         toast("New quotation received");
       }
     });
     socket.on("quotation updated data",(data) => {
       if(user?.email == data.data.userEmail){
-        console.log(data);
+        // console.log(data);
         dispatch(insertUserNotification(data.data))
         toast("Your quotation with price details received");
       }
@@ -122,9 +110,7 @@ const App = () => {
       <BrowserRouter>
         <ToastContainer autoClose={3000} />
         <Routes>
-          {/* <Route path='/' element={<PrivateRoute isAuthenticated={user}/>} >
-            <Route path='/' element={ <Home />} />
-      </Route> */}
+          
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -199,6 +185,9 @@ const App = () => {
               element={<AdminQuotationNotification />}
               />
           <Route path="quotationRequest/:id" element={<AdminQuotation/>} />
+          <Route path="materials" element={<AdminMaterials/>} />
+          <Route path="material" element={<AdminMaterial/>} />
+          <Route path="materialEdit/:id" element={<AdminMaterialEdit/>} />
           </Route>
         </Route>
         <Route

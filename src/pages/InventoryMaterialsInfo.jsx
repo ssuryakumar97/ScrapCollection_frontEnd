@@ -21,7 +21,7 @@ const InventoryMaterialsInfo = () => {
     useEffect(() => {
         const getMaterialsInfo = async() => {
             const res = await userRequest.get(`/soldMaterial/inventoryMaterials/${id}`)
-            console.log(res.data.data)
+            // console.log(res.data.data)
             setMaterialInfo(res.data.data)
         }
         getMaterialsInfo()

@@ -37,7 +37,7 @@ const Inventory = () => {
     getInventoryDetails()
   },[])
 
-  console.log(inventoryData)
+  // console.log(inventoryData)
 
   const handleClick = (val) => {
     // console.log(val._id)

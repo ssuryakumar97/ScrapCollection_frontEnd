@@ -4,15 +4,13 @@ import Topbar from "../components/Topbar";
 import { userRequest } from "../requestMethods";
 import styled from "styled-components";
 import {
-  ConstructionOutlined,
   Delete,
   LocationSearching,
   MailOutline,
   PhoneAndroid,
 } from "@mui/icons-material";
-import { useSelector } from "react-redux";
 import { endpoint } from "../requestMethods";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 
 const UserTitleContainer = styled.div`
   display: flex;
@@ -21,9 +19,7 @@ const UserTitleContainer = styled.div`
 `;
 const UserTitle = styled.h3``;
 
-const UserContainer = styled.div`
-  display: flex;
-`;
+
 const UserShow = styled.div`
   flex: 1;
   padding: 20px;
@@ -248,7 +244,7 @@ const AddCollectedMaterials = () => {
       try {
         const res = await userRequest.get(`/order/getOrderById/${id}`);
         setOrderData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -365,7 +361,7 @@ const AddCollectedMaterials = () => {
       materialSold: materialData,
       orderId: orderData._id
     });
-    console.log(response.data);
+    // console.log(response.data);
     
     toast.success(response.data.message);
     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -373,7 +369,7 @@ const AddCollectedMaterials = () => {
     setMaterialData([]);
   };
 
-  console.log(materialData)
+  // console.log(materialData)
 
   const handleMaterialChange = (e) => {
     const material = getMaterial.filter((val) => val.title === e.target.value);

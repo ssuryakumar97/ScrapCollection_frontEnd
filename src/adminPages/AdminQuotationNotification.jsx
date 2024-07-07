@@ -2,7 +2,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { publicRequest } from '../requestMethods'
 import { useNavigate } from 'react-router-dom'
 import { updateQuotationNotification } from '../redux/notificationRedux'
 
@@ -22,7 +21,7 @@ const NotifiDiv = styled.div`
 
 const AdminQuotationNotification = () => {
     const notification =  useSelector((state) => state.notification.quotationNotification)
-    console.log(notification)
+    // console.log(notification)
     const navigate = useNavigate()
     const dispatch = useDispatch()
   
@@ -30,7 +29,7 @@ const AdminQuotationNotification = () => {
       const id = curr.data._id
 
       const updatedNotification = notification.filter((val) => val.data._id != id)
-      console.log(updatedNotification);
+      // console.log(updatedNotification);
       dispatch(updateQuotationNotification(updatedNotification))
       navigate(`/admin/quotationRequest/${id}`)
     }

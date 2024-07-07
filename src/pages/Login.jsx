@@ -94,7 +94,7 @@ const Login = () => {
     
     try {
       const loginResponse = await publicRequest.post("/user/login", values)
-      console.log(loginResponse.data)
+      // console.log(loginResponse.data)
        dispatch(login(loginResponse.data.data))
        if(loginResponse.data.message == "Login Successful"){
         navigate("/")

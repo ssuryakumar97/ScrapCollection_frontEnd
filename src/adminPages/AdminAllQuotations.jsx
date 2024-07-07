@@ -34,7 +34,7 @@ const AdminAllQuotations = () => {
     useEffect(() => {
         const getAllQuotationData = async() => {
            const res = await userRequest.get("/quote/getAllQuotations")
-           console.log(res.data)
+          //  console.log(res.data)
            setQuoteData(res.data.data)
         }
         getAllQuotationData()
@@ -42,7 +42,7 @@ const AdminAllQuotations = () => {
 
     const handleDelete = async(id) => {
         const deletedResponse = await userRequest.delete(`/quote/deleteQuoteById/${id}`)
-        console.log(deletedResponse)
+        // console.log(deletedResponse)
         if(deletedResponse.data.data.deletedCount === 1){
           toast.success("Data deleted successfully")
         } else {
@@ -51,7 +51,7 @@ const AdminAllQuotations = () => {
       setQuoteData(quoteData.filter(val => val._id !== id))
       }
 
-    console.log(quoteData)
+    // console.log(quoteData)
 
     const columns = [
         { field: "_id", headerName: "ID", width: 200 },

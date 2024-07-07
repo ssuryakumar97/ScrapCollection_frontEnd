@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React  from "react";
 import styled from "styled-components";
-import { Timeline, LineStyle, TrendingUp, PersonOutline, Inventory, AssessmentOutlined, CurrencyRupeeOutlined, Mail, Feedback, ChatBubble, Work, Report, Notifications, SupportAgent, ShoppingCart, RequestQuote } from "@mui/icons-material";
-import {Link, NavLink} from "react-router-dom"
+import {  PersonOutline, Inventory,  Notifications, SupportAgent, ShoppingCart, RequestQuote } from "@mui/icons-material";
+import {NavLink} from "react-router-dom"
 import Badge from '@mui/material/Badge';
-// import "../../App.css"
-import io from "socket.io-client"
-import {insertAdminNotification} from "../redux/notificationRedux"
-import {useDispatch, useSelector} from "react-redux"
-import { endpoint } from "../requestMethods";
-import {ToastContainer, toast } from "react-toastify";
+
+import { useSelector} from "react-redux"
+import {ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// const endpoint = "http://localhost:3000"
-// const endpoint = "https://scrapcollection-backend.onrender.com"
 
-var socket
-// toast.configure()
 
 const SidebarDiv = styled.div`
   flex: 1;
@@ -47,6 +40,8 @@ const SidebarListItem = styled.li`
   display: flex;
   align-items: center;
   border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 5px;
   &:hover {
     background-color: #d5cbd5;
   }
@@ -61,26 +56,8 @@ const ActiveLink = styled(NavLink)`
 `
 
 const AdminSidebar = () => {
-  const dispatch = useDispatch()
   const {adminNotification, quotationNotification} =  useSelector((state) => state.notification)
 //  console.log(notification);
-
-  // useEffect(() => {
-
-  //   socket = io(endpoint)
-  
-  //   socket.on("order registration", (data) => {
-  //     console.log(data);
-  //   })
-  //   socket.on("order received", (data) => {
-  //     console.log(data);
-  //     // dispatch(insertNotification([...notification,data]))
-  //     dispatch(insertAdminNotification(data))
-  //     toast("New order received!");
-  //   })
-  // },[])
-
- 
  
 
   return (
@@ -97,7 +74,7 @@ const AdminSidebar = () => {
               {({ isActive }) => (
                 <SidebarListItem className={isActive ? "active" : ""}>
                   <PersonOutline
-                    style={{ marginRight: "5px", fontSize: "20px" }}
+                    style={{ marginRight: "5px", fontSize: "24px" }}
                   />
                   Users
                 </SidebarListItem>
@@ -107,7 +84,7 @@ const AdminSidebar = () => {
               {({ isActive }) => (
                 <SidebarListItem className={isActive ? "active" : ""}>
                   <SupportAgent
-                    style={{ marginRight: "5px", fontSize: "20px" }}
+                    style={{ marginRight: "5px", fontSize: "24px" }}
                   />
                   collectionAgent
                 </SidebarListItem>
@@ -123,7 +100,7 @@ const AdminSidebar = () => {
               {({ isActive }) => (
                 <SidebarListItem className={isActive ? "active" : ""}>
                     <ShoppingCart
-                      style={{ marginRight: "5px", fontSize: "20px" }}
+                      style={{ marginRight: "5px", fontSize: "24px" }}
                     />
                   Orders
                 </SidebarListItem>
@@ -141,7 +118,7 @@ const AdminSidebar = () => {
                     }}
                   >
                     <Notifications
-                      style={{ marginRight: "5px", fontSize: "20px" }}
+                      style={{ marginRight: "5px", fontSize: "24px" }}
                     />
                   </Badge>
                   Orders Notification
@@ -152,7 +129,7 @@ const AdminSidebar = () => {
               {({ isActive }) => (
                 <SidebarListItem className={isActive ? "active" : ""}>
                     <RequestQuote
-                      style={{ marginRight: "5px", fontSize: "20px" }}
+                      style={{ marginRight: "5px", fontSize: "24px" }}
                     />
                   Quotations
                 </SidebarListItem>
@@ -170,10 +147,30 @@ const AdminSidebar = () => {
                     }}
                   >
                     <Notifications
-                      style={{ marginRight: "5px", fontSize: "20px" }}
+                      style={{ marginRight: "5px", fontSize: "24px" }}
                     />
                   </Badge>
                   Quotation Notification
+                </SidebarListItem>
+              )}
+            </ActiveLink>
+            <ActiveLink to="/admin/materials">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                    <Inventory
+                      style={{ marginRight: "5px", fontSize: "24px" }}
+                    />
+                  Materials
+                </SidebarListItem>
+              )}
+            </ActiveLink>
+            <ActiveLink to="/admin/material">
+              {({ isActive }) => (
+                <SidebarListItem className={isActive ? "active" : ""}>
+                    <Inventory
+                      style={{ marginRight: "5px", fontSize: "20px" }}
+                    />
+                  Create Material
                 </SidebarListItem>
               )}
             </ActiveLink>

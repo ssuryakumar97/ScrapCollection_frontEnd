@@ -24,20 +24,20 @@ const Orders = () => {
   useEffect(() => {
     const userOrders = async() => {
       const res = await userRequest.post("/order/getOrderByUsername",{email:user.email}) 
-      console.log(res.data)
+      // console.log(res.data)
       setOrderData((val) => [...res.data])
     }
     userOrders();
   },[])
 
   const handleClick = (val) => {
-    console.log(val)
+    // console.log(val)
     
       navigate(`/orderDetails/${val._id}`)
     
   }
 
-  console.log(orderData)
+  // console.log(orderData)
   return (
     <div>
       <Topbar/>

@@ -5,15 +5,8 @@ import { userRequest } from '../requestMethods'
 import { useSelector } from 'react-redux'
 import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import io from "socket.io-client"
-import { endpoint } from '../requestMethods'
 import { socket } from '../requestMethods'
 
-// const endpoint = "http://localhost:3000"
-
-// var socket
-
-// toast.configure();
 
 const Form = styled.form`
   display: flex;
@@ -30,13 +23,6 @@ const Collection_request = () => {
 
   const email= useSelector((state) => state.user.currentUser.email)
 
-  // useEffect(() => {
-  //   // socket = io(endpoint)
-  
-  //   socket.on("order registration", (data) => {
-  //     console.log(data);
-  //   })
-  // },[])
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -45,7 +31,7 @@ const Collection_request = () => {
       const response = await userRequest.post("/order/registerOrder",{name, email, contactNumber, address} )
       const resData = response.data.data
       toast.success(response.data.message)
-      console.log(resData)
+      // console.log(resData)
       socket.emit("new order", resData)
       await new Promise((resolve) => setTimeout(resolve, 3000))
       // alert(response.data.message)

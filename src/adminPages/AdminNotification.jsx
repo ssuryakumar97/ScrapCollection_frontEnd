@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { publicRequest } from '../requestMethods'
 import { useNavigate } from 'react-router-dom'
 import { updateAdminNotification } from '../redux/notificationRedux'
 
@@ -25,7 +24,7 @@ const AdminNotification = () => {
   const handleClick = (curr) => {
     const id = curr._id
     const updatedNotification = notification.filter((val) => val._id != id)
-    console.log(updatedNotification);
+    // console.log(updatedNotification);
     dispatch(updateAdminNotification(updatedNotification))
     navigate(`/admin/order/${id}`)
   }

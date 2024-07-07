@@ -17,19 +17,6 @@ const UserListDiv = styled.div`
   flex: 4;
 `;
 
-const UserListUser = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const UserListImg = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-`;
-
 const UserListEditDiv = styled.div`
   display: flex;
   align-items: center;
@@ -53,9 +40,7 @@ const DeleteOutlineIconStyled = styled(DeleteOutlineIcon)`
 
 
 const AdminOrders = () => {
-  // const [data, setData] = useState(orderRows)
   const [data, setData] = useState([])
-  const [edit, setEdit] = useState(false)
 
 useEffect(() => {
   const getOrders = async() => {

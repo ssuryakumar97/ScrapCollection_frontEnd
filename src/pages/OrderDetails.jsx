@@ -3,18 +3,11 @@ import { useParams } from 'react-router-dom'
 import Topbar from '../components/Topbar'
 import styled from "styled-components";
 import {
-  CalendarToday,
   LocationSearching,
   MailOutline,
-  PermIdentity,
-  PhoneAndroid,
-  Try,
-  Upload,
+  PhoneAndroid
 } from "@mui/icons-material";
 import { endpoint, userRequest } from '../requestMethods';
-
-
-// var socket;
 
 const UserDiv = styled.div`
   flex: 4;
@@ -104,37 +97,11 @@ const UserUpdateItem = styled.div`
     }
 `;
 
-const UserUpdateButton = styled.button`
-    &.normal_button{border-radius: 5px;
-    border: none;
-    padding: 5px;
-    background-color: darkblue;
-    color: white;
-    font-weight: 600;
-    width: 200px;
-    justify-content: center;
-    margin: 10px;
-    cursor: pointer;}
-    &.disabled_button{border-radius: 5px;
-    border: none;
-    padding: 5px;
-    background-color: #a1a1be;
-    color: white;
-    font-weight: 600;
-    width: 200px;
-    justify-content: center;
-    margin: 10px;
-    cursor: not-allowed;}
-`
 
 const CollectionDetails = styled.h4`
   margin: 10px 0px;
 `
 
-const ErrorDiv = styled.div`
-  color: red;
-  font-size: 14px;
-`
 
 const TableDiv = styled.div`
   padding: 10px;
@@ -165,7 +132,7 @@ const OrderDetails = () => {
         try {
           const res = await userRequest.get(`/order/getOrderById/${id}`)
           setOrderData(res.data)
-          console.log(res.data);
+          // console.log(res.data);
         } catch (error) {
           console.log(error)
         }
@@ -173,7 +140,7 @@ const OrderDetails = () => {
       getOrderDetails();
     },[])
 
-    console.log(orderData)
+    // console.log(orderData)
   return (
     <div>
         <Topbar/>

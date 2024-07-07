@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Topbar from '../components/Topbar'
 import styled from 'styled-components'
 import { ToastContainer } from 'react-toastify'
@@ -78,10 +78,11 @@ const QuotationDetails = () => {
   const [disableButton, setDisableButton] = useState(false)
     const {id} = useParams()
 
+    const navigate= useNavigate()
     useEffect(()=>{
       const getQuote = async() => {
        const response = await userRequest.get(`quote/getQuoteById/${id}`)
-        console.log(response.data.data)
+        // console.log(response.data.data)
         setQuotationData(response.data.data)
       }
       getQuote()
@@ -89,16 +90,19 @@ const QuotationDetails = () => {
 
     const handleSubmit = async(e) => {
       e.preventDefault()
-      console.log(e.target.value)
+      // console.log(e.target.value)
       setQuotationData((val) => ({...val, status : e.target.value}))
       const updatedResponse = await userRequest.post("/quote/quotationUpdateByUser",{id, status:e.target.value})
-      console.log(updatedResponse.data)
+      // console.log(updatedResponse.data)
+      if(e.target.value == "approved") {
+        navigate("/collection-request")
+      }
     }
 
-    console.log(quotationData)
+    // console.log(quotationData)
     const grandTotal = quotationData?.materials.reduce((acc,val) => {
      return acc + val.totalPrice},0)
-    console.log(grandTotal)
+    // console.log(grandTotal)
 
   return (
     <div>

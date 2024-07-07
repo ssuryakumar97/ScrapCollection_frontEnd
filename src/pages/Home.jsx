@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Topbar from '../components/Topbar'
-import { userRequest } from '../requestMethods.js'
-import axios from 'axios'
 import styled from 'styled-components'
 import Footer from '../components/Footer.jsx'
 
@@ -69,22 +67,6 @@ const WorkingDiv = styled.div`
 `
 
 const Home = () => {
-
-  const [allUser, setAllUser] = useState([])
-
-  // useEffect(() => {
-  //   const getAllUsers = async() => {
-  //     // const token =await JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.token
-  //     // console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.name);
-  //     try {
-  //       const res = await userRequest.get("/user/getAllUser")
-  //       setAllUser(res.data)
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getAllUsers()
-  // } ,[])
 
 
   return (

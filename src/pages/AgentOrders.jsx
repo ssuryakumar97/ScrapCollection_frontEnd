@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Topbar from '../components/Topbar'
 import styled from "styled-components";
 import { DataGrid } from "@mui/x-data-grid";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {Link} from "react-router-dom"
 import {  userRequest } from "../requestMethods";
 import { useSelector } from "react-redux";
@@ -27,13 +26,13 @@ const UserListEditButton = styled.button`
 const AgentOrders = () => {
     const [data, setData] = useState([])
     const user = useSelector(state => state.user.currentUser) 
-    console.log(user)
+    // console.log(user)
     useEffect(() => {
-        console.log(user?.email)
+        // console.log(user?.email)
       const getOrders = async() => {
         try {
          const res = await userRequest.post("/order/getAllOrdersByCollectionAgent", {email: user.email})
-        console.log(res.data);
+        // console.log(res.data);
         setData(res.data)
         } catch (error) {
           console.log(error);

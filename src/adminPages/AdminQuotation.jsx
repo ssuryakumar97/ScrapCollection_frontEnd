@@ -45,14 +45,14 @@ const [disableButton , setDisableButton] = useState(false)
 useEffect(()=>{
   const getQuote = async() => {
    const response = await userRequest.get(`quote/getQuoteById/${id}`)
-    console.log(response.data.data)
+    // console.log(response.data.data)
     setQuotationData(response.data.data)
   }
   getQuote()
 },[])
 
 const handleEdit = (val) => {
-  console.log(val)
+  // console.log(val)
   setEditId(val)
 }
 
@@ -64,7 +64,7 @@ const handleSubmit = async(e) => {
   e.preventDefault()
   setDisableButton((val) => !val)
   const priceUpdatedResponse = await userRequest.post("/quote/quotationUpdate",{id: quotationData._id, materials: quotationData.materials})
-  console.log(priceUpdatedResponse)
+  // console.log(priceUpdatedResponse)
   toast.success("Price updated successfully")
   await new Promise((resolve) => setTimeout(resolve,2000))
   setDisableButton((val) => !val)
@@ -72,7 +72,7 @@ const handleSubmit = async(e) => {
 }
 
 const handlePriceDetails = (e, ind) => {
-  console.log(ind)
+  // console.log(ind)
   setQuotationData((val) => ({...val, materials: (val.materials).map((curr,curInd) => {
     if(curInd === ind) {
       return {...curr, totalPrice: +e.target.value }
@@ -82,7 +82,7 @@ const handlePriceDetails = (e, ind) => {
   }) }))
 }
 
-console.log(quotationData)
+// console.log(quotationData)
 
   return (
     <QuotationDiv>

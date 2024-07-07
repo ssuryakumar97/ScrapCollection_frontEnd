@@ -3,10 +3,9 @@ import Topbar from '../components/Topbar'
 import "./Quotation_request.css"
 import styled from 'styled-components';
 import {
-  Upload, Delete
+   Delete
 } from "@mui/icons-material";
-import {Form, Link} from "react-router-dom"
-import { publicRequest, socket, userRequest } from '../requestMethods';
+import {  socket, userRequest } from '../requestMethods';
 import { endpoint } from '../requestMethods';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -87,9 +86,7 @@ const UserUpdateImgInput = styled.input`
    margin-left: 10px;
 `;
 
-const UserUpdateIcon = styled(Upload)`
-    cursor: pointer;
-`
+
 
 const UserUpdateButton = styled.button`
     &.normal_button {
@@ -142,9 +139,6 @@ const SubmitButton = styled.button`
 
 `
 
-const ImageUpload = styled(Upload)`
-    cursor: pointer;
-`
 const ImageUploadDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -170,19 +164,6 @@ const Quotation_request = () => {
   // console.log(userEmail)
   const inputFile = useRef(null)
 
-  // const handleImageSubmit = async(e) => {
-  //   e.preventDefault()
-  //   const form = new FormData()
-  //   form.append("image", data.image)
-  //   console.log(form.values())
-  //   const result = await publicRequest.post(`${endpoint}/api/image/upload`, form, {
-  //     headers: {"Content-Type":"multipart/form-data" }
-  //   })
-  //   console.log(result)
-  //   setGetImage(result.data)
-  //   setData(data.image = result.data.name)
-  // }
-
 
   const onInputChange = (e) => {
     // console.log(e.target)
@@ -207,7 +188,7 @@ const Quotation_request = () => {
     const result = await userRequest.post("/image/upload", form, {
       headers: {"Content-Type":"multipart/form-data" }
     })
-    console.log(result)
+    // console.log(result)
     setGetImage(result.data)
     setData(val => ({...val, image: result.data.name, imageId: result.data.id}))
     
@@ -231,16 +212,16 @@ useEffect(()=>{
 
 const handleDelete = async(e,val) => {
   e.preventDefault()
-  console.log(val)
+  // console.log(val)
   setMaterialData(materialData.filter((item) => item.image != val.image ))
   const deleteImage = await userRequest.delete(`/image/delete/${val.imageId}`)
-  console.log(deleteImage)
+  // console.log(deleteImage)
 }
 
 const handleSubmit = async(e) => {
   e.preventDefault()
   const response = await userRequest.post("/quote/newQuotation",{userEmail,materials: materialData})
-  console.log(response.data)
+  // console.log(response.data)
   setDisableButton((val) => !val)
   toast.success(response.data.message)
   socket.emit("quotation received", response.data)
@@ -249,11 +230,6 @@ const handleSubmit = async(e) => {
   setMaterialData([])
 }
 
-  // console.log(file);
-  // console.log(image);
-  // console.log(data);
-  // console.log(materialData);
-  // console.log(disableButton);
 
   
   return (

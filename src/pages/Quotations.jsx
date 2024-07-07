@@ -22,7 +22,7 @@ const Quotations = () => {
     useEffect(() => {
         const getAllQuotations = async() => {
             const res = await userRequest.post("/quote/getAllQuotationsByUser", {email:user.email})
-            console.log(res.data)
+            // console.log(res.data)
             setQuotationData([...res.data.data])
         }
         getAllQuotations()

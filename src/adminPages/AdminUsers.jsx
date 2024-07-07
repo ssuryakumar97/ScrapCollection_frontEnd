@@ -49,13 +49,12 @@ const AdminUsers = () => {
         getAllUsers()
     },[updatedUser])
 
-    console.log(users)
+    // console.log(users)
 
     const handleUpdate = async(id, email) => {
-      console.log(id)
-      console.log(email)
+    
       const updateUser = await userRequest.post("/user/updateUsers", {adminEmail: adminEmail, userEmail: email, isAgent})
-      console.log(updateUser.data)
+      // console.log(updateUser.data)
       setUpdatedUser(updateUser.data)
       toast.success(updateUser.data.message)
       setEditId("")

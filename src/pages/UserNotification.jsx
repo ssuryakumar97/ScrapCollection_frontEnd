@@ -1,8 +1,9 @@
 import React from 'react'
 import Topbar from '../components/Topbar'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { updateUserNotification } from '../redux/notificationRedux'
 
 const NotifiDiv = styled.div`
   margin: 15px 5px;
@@ -16,15 +17,18 @@ const UserNotification = () => {
 
   const userNotification = useSelector((state) => state.notification.userNotification)
   const navigate = useNavigate()
-  console.log(userNotification);
+  // console.log(userNotification);
+  const dispatch = useDispatch()
 
   const handleClick = (val) => {
-    console.log(val)
+    // console.log(val)
+    const updatedNotification = userNotification.filter((curr) => curr._id != val._id)
     if(val?.notificationType === "quotation"){
       navigate(`/quotationDetails/${val._id}`)
     } else {
       navigate(`/orderDetails/${val.orderData._id}`)
     }
+    dispatch(updateUserNotification(updatedNotification))
   }
 
   return (
@@ -32,7 +36,7 @@ const UserNotification = () => {
         <Topbar/>
       <div>
         {userNotification.length !=0 ? userNotification.map((val, ind) => {
-          console.log(val)
+          // console.log(val)
           if(val.notificationType === "quotation"){
             return (
               <NotifiDiv key={ind} onClick={() => handleClick(val)}>

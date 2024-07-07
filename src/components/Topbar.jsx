@@ -1,19 +1,13 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { userRequest } from "../requestMethods";
 import { logout } from "../redux/userRedux";
 import { NavLink, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications"
 import Badge from '@mui/material/Badge';
-import { io } from "socket.io-client";
-import { endpoint } from "../requestMethods";
-import {ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { insertUserNotification } from "../redux/notificationRedux";
 
-var socket;
 
 const TopbarContainer = styled.div`
   display: flex;
@@ -135,7 +129,6 @@ const ListItem = styled.li`
 
 const Topbar = () => {
   const [dropDown, setDropDown] = useState(false);
-  const [notificationdropDown, setNotificationDropDown] = useState(false);
 
   const user = useSelector((state) => state.user.currentUser);
   const expiryTime = useSelector((state) => state.user.expiry);
@@ -169,45 +162,8 @@ const Topbar = () => {
     return () => {
       window.removeEventListener("mousedown", handler);
     };
-  }, []);
-
-  // useEffect(()=> {
-  //   socket = io(endpoint);
-  //   console.log(user)
-
-  //   socket.on("order assigned",(data) => {
-  //     console.log(data);
-  //     if(user.email == data.orderData.email){
-  //       dispatch(insertUserNotification(data))
-  //       toast("New order received!");
-  //     }
-  //   })
-  // },[])
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       // const getUserResponse = await userRequest.get("/user/getUser")
-
-  //       // console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser)?.name);
-  //       // const getUserResponse = await userRequest.get("/user/getUser");
-  //       // console.log(getUserResponse.data);
-  //       // const res = getUserResponse.data;
-  //       // console.log(res);
-  //       // setUserData(res);
-  //       // console.log(userData);
-  //       // setIsAdmin(() => getUserResponse.data.isAdmin)
-  //       // console.log(isAdmin);
-  //       // setIsCollectionAgent(() => getUserResponse.data.isCollectionAgent)
-  //       // console.log(isCollectionAgent);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getUser();
-  // }, []);
-
-  // console.log(userData);
+  }, []); 
+  
 
   const navigate = useNavigate();
 
