@@ -1,5 +1,5 @@
 Note:
-Please login to the user page, admin page and collection agent page to the different browser. Then only you can see the notification.
+Please login to the user page, admin page and collection agent page to the different browser. Then only you can see the notification. Used socket io for admin, collection agent and user notification.
 
 Flow:
 
