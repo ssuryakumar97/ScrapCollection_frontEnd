@@ -1,3 +1,10 @@
+Note:
+Please login to the user page, admin page and collection agent page to the different browser. Then only you can see the notification.
+
+Flow:
+
+user quotation request --> admin approx quote --> user acceptance --> user address details --> admin assigning collection available agent --> agent material collection --> agent inventory updation 
+
 USER CREDENTIALS:
 
 ADMIN: 
